@@ -12,23 +12,29 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<script>try{var _t=JSON.parse(localStorage.getItem('mepsizer.v1')||'null');if(_t&&(_t.theme==='light'||_t.theme==='dark'))document.documentElement.setAttribute('data-theme',_t.theme);}catch(e){}</script>
 <style>
 :root{
+  color-scheme:light dark;
   --bg:#f3f6f8;--card:#ffffff;--ink:#12212b;--ink2:#5a6b78;--line:#d7e0e6;--accent:#0e7c86;--accent-ink:#ffffff;
   --calc:#eaf1f5;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#0E2A3A;--head-ink:#ffffff;--chip:#e3ecf1;
 }
+/* System: follow the phone unless the user forced Light */
 @media (prefers-color-scheme: dark){
-  :root{--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
+  :root:not([data-theme="light"]){--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
   --calc:#172a35;--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:#081820;--head-ink:#e8f0f4;--chip:#1a2c37;}
 }
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
+  --calc:#172a35;--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:#081820;--head-ink:#e8f0f4;--chip:#1a2c37}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .wrap{max-width:540px;margin:0 auto;padding:0 12px 28px}
-header.top{background:var(--head);color:var(--head-ink);padding:10px 12px;margin:0 -12px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-header.top h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
-.menu{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.menu button{background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:7px 10px;font-size:13.5px;font-weight:600;cursor:pointer}
+header.top{background:var(--head);color:var(--head-ink);padding:10px 12px;margin:0 -12px 10px;display:flex;flex-direction:column;align-items:stretch;gap:8px}
+header.top h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px;white-space:nowrap}
+.menu{display:flex;gap:6px;flex-wrap:nowrap}
+.menu button{flex:1 1 auto;white-space:nowrap;background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:8px 6px;font-size:13.5px;font-weight:600;cursor:pointer}
 .menu button:active{background:rgba(255,255,255,.25)}
 nav.tabs{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
 nav.tabs button{flex:0 0 auto;background:var(--chip);color:var(--ink);border:0;border-radius:999px;padding:8px 16px;font-size:14.5px;font-weight:600;cursor:pointer}
@@ -48,7 +54,8 @@ nav.modes button{padding:6px 14px;font-size:13.5px}
 input.num{width:100%;font:inherit;font-size:17px;padding:8px 9px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;min-width:0}
 input.num.calc{background:var(--calc);border-style:dashed;color:var(--ink2)}
 input.num:focus{outline:2px solid var(--accent);outline-offset:0}
-.unit{font-size:13.5px;color:var(--ink2)}
+.unit{font-size:13.5px;color:var(--ink2);line-height:1.15}
+@media (max-width:380px){.row{grid-template-columns:minmax(0,1fr) 98px 70px;gap:6px}.row .chk{font-size:14.5px;gap:7px}}
 .sizerow{display:grid;grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr) auto;gap:8px;align-items:center;margin:10px 0 2px}
 .sizerow .lbl{font-weight:600;font-size:15px}
 .hint{font-size:12px;color:var(--ink2);margin:2px 0 0}
@@ -71,6 +78,12 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .sheet p,.sheet li{font-size:14px;line-height:1.45;color:var(--ink)}
 .sheet ul{padding-left:20px;margin:6px 0}
 .sheet button{margin-top:10px;width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:11px;font-size:15px;font-weight:700;cursor:pointer}
+.menu button.ico{flex:0 0 auto;padding:8px 11px;display:inline-flex;align-items:center;justify-content:center}
+.menu button.ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.setlabel{font-weight:700;font-size:14px;margin:12px 0 6px}
+.seg{display:flex;gap:6px}
+.sheet .seg button{margin-top:0;flex:1;background:var(--chip);color:var(--ink);border-radius:10px;padding:10px 6px;font-size:14.5px;font-weight:600}
+.sheet .seg button.on{background:var(--accent);color:var(--accent-ink)}
 .printhead{display:none}
 @media print{
   header.top,nav.tabs,.status,.hint,footer.ft,.overlay{display:none!important}
@@ -92,13 +105,27 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
       <button id="m-clear" type="button">Clear</button>
       <button id="m-print" type="button">Print</button>
       <button id="m-about" type="button">About</button>
+      <button id="m-settings" class="ico" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
   </header>
   <div class="printhead" id="printhead"></div>
   <nav class="tabs" id="mods" aria-label="Calculators"></nav>
   <nav class="tabs modes" id="modes" aria-label="Mode"></nav>
   <main id="view"></main>
-  <footer class="ft"><span>MEP Sizer</span><span id="ver"></span></footer>
+  <footer class="ft"><span>Created By: Kadir-ekhasti</span><span id="ver"></span></footer>
+</div>
+
+<div class="overlay" id="settings" role="dialog" aria-modal="true" aria-label="Settings">
+  <div class="sheet">
+    <h2>Settings</h2>
+    <div class="setlabel">Theme</div>
+    <div class="seg" id="theme-seg">
+      <button type="button" data-theme-opt="light">Light</button>
+      <button type="button" data-theme-opt="dark">Dark</button>
+      <button type="button" data-theme-opt="system">System</button>
+    </div>
+    <button type="button" id="settings-close">Close</button>
+  </div>
 </div>
 
 <div class="overlay" id="about" role="dialog" aria-modal="true" aria-label="About">
@@ -200,7 +227,11 @@ const ENG = (function () {
     }
     return { Q: Q, V: V, D: D, Hf: Hf };
   }
-  return { solve: solve, state: state, deq: deq, area: area, K: K_PA_INWC };
+  // other side b so that the equivalent diameter of a x b equals De (all in metres); null if not found
+  function sideFor(De, a) {
+    return bisect(b => deq(a, b) - De, a * 1e-6, (De + a) * 1e6);
+  }
+  return { solve: solve, state: state, deq: deq, area: area, sideFor: sideFor, K: K_PA_INWC };
 })();
 /*ENGINE_END*/
 
@@ -237,7 +268,7 @@ const VERSION = 'v2026.11.05';
 
 /* ---------- state ---------- */
 const STORE_KEY = 'mepsizer.v1';
-const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: '', d: '' }, duct: { w: '', h: '' }, fluid: 'stp', mod: 'duct', mode: 'basic' };
+const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: '', d: '' }, duct: { w: '', h: '', auto: null, pending: null }, fluid: 'stp', mod: 'duct', mode: 'basic', theme: 'system' };
 (function load() {
   try {
     const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
@@ -245,7 +276,12 @@ const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: ''
     if (r.units === 'si' || r.units === 'ip') S.units = r.units;
     if (Array.isArray(r.inputs) && r.inputs.length === 2 && r.inputs.every(k => FIELDS.indexOf(k) >= 0) && r.inputs[0] !== r.inputs[1]) S.inputs = r.inputs;
     if (r.vals) FIELDS.forEach(k => { if (typeof r.vals[k] === 'string') S.vals[k] = r.vals[k]; });
-    if (r.duct) { if (typeof r.duct.w === 'string') S.duct.w = r.duct.w; if (typeof r.duct.h === 'string') S.duct.h = r.duct.h; }
+    if (r.duct) {
+      if (typeof r.duct.w === 'string') S.duct.w = r.duct.w; if (typeof r.duct.h === 'string') S.duct.h = r.duct.h;
+      if (r.duct.auto === 'w' || r.duct.auto === 'h') S.duct.auto = r.duct.auto;
+      if (r.duct.pending === 'w' || r.duct.pending === 'h') S.duct.pending = r.duct.pending;
+    }
+    if (r.theme === 'light' || r.theme === 'dark' || r.theme === 'system') S.theme = r.theme;
     if (FLUIDS.some(f => f.id === r.fluid)) S.fluid = r.fluid;
   } catch (e) {}
 })();
@@ -307,7 +343,6 @@ function mountDuctBasic(view) {
         '<span class="unit">×</span>' +
         '<input class="num" id="dh" inputmode="decimal" autocomplete="off" aria-label="Duct height">' +
         '<span class="unit" id="dimu"></span></div>' +
-      '<p class="hint">Leave duct size blank to use the sized diameter. Tick any two boxes to choose which values you enter.</p>' +
       '<div class="status" id="status" role="status"></div></section>' +
     '<section class="card res" id="res">' +
       rl('r-de', 'Equivalent diameter', 'blue') + rl('r-area', 'Flow area', 'blue') + rl('r-vel', 'Fluid velocity', 'blue') +
@@ -341,8 +376,44 @@ function onInput(e) {
     else { S.inputs = S.inputs.filter(x => x !== k); S.inputs.push(k); }   // most recently edited goes last; the least recent is the one dropped
     S.vals[k] = t.value;
     update(k);
-  } else if (t.id === 'dw') { S.duct.w = t.value; update(); }
-  else if (t.id === 'dh') { S.duct.h = t.value; update(); }
+  } else if (t.id === 'dw' || t.id === 'dh') {
+    const me = t.id === 'dw' ? 'w' : 'h', other = me === 'w' ? 'h' : 'w';
+    if (S.duct.auto === me) S.duct.auto = null;                         // the user overrides the auto value
+    else if (S.duct.auto === other) { S.duct[other] = ''; S.duct.auto = null; }   // the other side was auto: drop it until Enter / leaving the box
+    S.duct.pending = null;
+    S.duct[me] = t.value;
+    update();
+  }
+}
+
+// Fill the other duct side so the rectangle has the sized equivalent diameter; rounded to the nearest 50 mm (1 in for IP).
+function fillOther(src, D) {
+  const other = src === 'w' ? 'h' : 'w', a = parseNum(S.duct[src]);
+  if (!(a > 0)) return false;
+  const U = UN[S.units], bm = ENG.sideFor(D, U.dim.to(a));
+  if (bm === null || !isFinite(bm)) return false;
+  const step = S.units === 'si' ? 50 : 1;
+  S.duct[other] = String(Math.max(step, Math.round(U.dim.from(bm) / step) * step));
+  S.duct.auto = other; S.duct.pending = null;
+  return true;
+}
+function syncAutoSide(D) {
+  const d = S.duct;
+  if (d.auto) {
+    const src = d.auto === 'w' ? 'h' : 'w';
+    if (parseNum(d[src]) > 0) fillOther(src, D); else { d[d.auto] = ''; d.auto = null; }
+  } else if (d.pending) {
+    const src = d.pending, other = src === 'w' ? 'h' : 'w';
+    if (parseNum(d[src]) > 0 && !(parseNum(d[other]) > 0)) fillOther(src, D); else d.pending = null;
+  }
+}
+function commitDuct(e) {
+  const t = e.target; if (!t || (t.id !== 'dw' && t.id !== 'dh')) return;
+  const src = t.id === 'dw' ? 'w' : 'h', other = src === 'w' ? 'h' : 'w';
+  if (!(parseNum(S.duct[src]) > 0) || S.duct.auto === src) return;
+  if (parseNum(S.duct[other]) > 0 && S.duct.auto !== other) return;      // both typed by the user: leave them alone
+  S.duct.pending = src;                                                   // filled now if a sized diameter exists, otherwise as soon as it does
+  update();
 }
 
 function fluidProps() {
@@ -360,6 +431,8 @@ function fluidProps() {
 // listeners are attached once to the persistent container
 $('#view').addEventListener('input', e => onInput(e));
 $('#view').addEventListener('change', e => onCheck(e));
+$('#view').addEventListener('focusout', e => commitDuct(e));
+$('#view').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && (e.target.id === 'dw' || e.target.id === 'dh')) { e.preventDefault(); e.target.blur(); } });
 $('#view').addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('num')) { try { e.target.select(); } catch (x) {} } });
 
 let lastResult = null;
@@ -382,6 +455,8 @@ function update(editing) {
   });
   if ($('#dw') !== document.activeElement) $('#dw').value = S.duct.w;
   if ($('#dh') !== document.activeElement) $('#dh').value = S.duct.h;
+  $('#dw').classList.toggle('calc', S.duct.auto === 'w');
+  $('#dh').classList.toggle('calc', S.duct.auto === 'h');
 
   // solve
   const status = $('#status'); status.className = 'status'; status.textContent = '';
@@ -389,8 +464,15 @@ function update(editing) {
   S.inputs.forEach(k => { const x = parseNum(S.vals[k]); if (x > 0) inp[k] = U[k].to(x); else ok = false; });
   let sol = null;
   if (ok) { sol = ENG.solve(inp, fl); if (sol.err) { status.textContent = sol.err; sol = null; } }
-  else { status.className = 'status warn'; status.textContent = 'Enter values in the two ticked fields.'; }
+  // (incomplete inputs: results simply stay empty, no message)
 
+  if (sol) {
+    syncAutoSide(sol.D);
+    if ($('#dw') !== document.activeElement) $('#dw').value = S.duct.w;
+    if ($('#dh') !== document.activeElement) $('#dh').value = S.duct.h;
+    $('#dw').classList.toggle('calc', S.duct.auto === 'w');
+    $('#dh').classList.toggle('calc', S.duct.auto === 'h');
+  }
   FIELDS.forEach(k => {
     if (S.inputs.indexOf(k) >= 0) return;
     const el = $('[data-in="' + k + '"]');
@@ -453,14 +535,30 @@ $('#m-units').addEventListener('click', () => {
   if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); update(); } else { $('#m-units').textContent = UN[S.units].name + ' ⇄'; save(); }
 });
 $('#m-clear').addEventListener('click', () => {
-  FIELDS.forEach(k => S.vals[k] = ''); S.duct.w = ''; S.duct.h = '';
+  FIELDS.forEach(k => S.vals[k] = ''); S.duct.w = ''; S.duct.h = ''; S.duct.auto = null; S.duct.pending = null;
   if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); $('#dw').value = ''; $('#dh').value = ''; update(); }
 });
 $('#m-print').addEventListener('click', () => { try { window.print(); } catch (e) {} });
+function applyTheme() {
+  const r = document.documentElement;
+  if (S.theme === 'light' || S.theme === 'dark') r.setAttribute('data-theme', S.theme); else r.removeAttribute('data-theme');
+  const dark = S.theme === 'dark' || (S.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', dark ? '#081820' : '#0E2A3A');
+  $$('[data-theme-opt]').forEach(b => b.classList.toggle('on', b.dataset.themeOpt === S.theme));
+}
+$('#m-settings').addEventListener('click', () => { $('#settings').classList.add('open'); });
+$('#settings-close').addEventListener('click', () => { $('#settings').classList.remove('open'); });
+$('#settings').addEventListener('click', e => { if (e.target.id === 'settings') $('#settings').classList.remove('open'); });
+$('#theme-seg').addEventListener('click', e => {
+  const b = e.target.closest('[data-theme-opt]'); if (!b) return;
+  S.theme = b.dataset.themeOpt; applyTheme(); save();
+});
+try { const mq = window.matchMedia('(prefers-color-scheme: dark)'); (mq.addEventListener ? mq.addEventListener('change', applyTheme) : mq.addListener && mq.addListener(applyTheme)); } catch (e) {}
+applyTheme();
 $('#m-about').addEventListener('click', () => { $('#about').classList.add('open'); });
 $('#about-close').addEventListener('click', () => { $('#about').classList.remove('open'); });
 $('#about').addEventListener('click', e => { if (e.target.id === 'about') $('#about').classList.remove('open'); });
-$('#ver').textContent = VERSION;
+$('#ver').textContent = 'Version: ' + VERSION;
 $('#about-ver').textContent = 'Version ' + VERSION;
 
 renderNav();
