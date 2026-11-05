@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MEP Sizer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E2A3A">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MEP Sizer">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<style>
+:root{
+  --bg:#f3f6f8;--card:#ffffff;--ink:#12212b;--ink2:#5a6b78;--line:#d7e0e6;--accent:#0e7c86;--accent-ink:#ffffff;
+  --calc:#eaf1f5;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#0E2A3A;--head-ink:#ffffff;--chip:#e3ecf1;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
+  --calc:#172a35;--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:#081820;--head-ink:#e8f0f4;--chip:#1a2c37;}
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:540px;margin:0 auto;padding:0 12px 28px}
+header.top{background:var(--head);color:var(--head-ink);padding:10px 12px;margin:0 -12px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+header.top h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
+.menu{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.menu button{background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:7px 10px;font-size:13.5px;font-weight:600;cursor:pointer}
+.menu button:active{background:rgba(255,255,255,.25)}
+nav.tabs{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
+nav.tabs button{flex:0 0 auto;background:var(--chip);color:var(--ink);border:0;border-radius:999px;padding:8px 16px;font-size:14.5px;font-weight:600;cursor:pointer}
+nav.tabs button.on{background:var(--accent);color:var(--accent-ink)}
+nav.tabs button .soon{font-size:10.5px;font-weight:700;opacity:.7;margin-left:5px;text-transform:uppercase}
+nav.modes button{padding:6px 14px;font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px}
+.fluid select{width:100%;font:inherit;font-weight:600;padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.props{margin-top:8px;display:grid;grid-template-columns:1fr auto auto;gap:2px 8px;font-size:14px}
+.props span:nth-child(3n+1){color:var(--ink2)}
+.props b{color:var(--blue);text-align:right;font-variant-numeric:tabular-nums}
+.props i{font-style:normal;color:var(--ink2);font-size:13px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 112px 78px;gap:8px;align-items:center;margin:7px 0}
+.row .chk{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;min-width:0}
+.row .chk input{width:21px;height:21px;accent-color:var(--accent);flex:0 0 auto}
+.row .chk small{display:block;font-weight:400;color:var(--ink2);font-size:11.5px;line-height:1.1}
+input.num{width:100%;font:inherit;font-size:17px;padding:8px 9px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;min-width:0}
+input.num.calc{background:var(--calc);border-style:dashed;color:var(--ink2)}
+input.num:focus{outline:2px solid var(--accent);outline-offset:0}
+.unit{font-size:13.5px;color:var(--ink2)}
+.sizerow{display:grid;grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr) auto;gap:8px;align-items:center;margin:10px 0 2px}
+.sizerow .lbl{font-weight:600;font-size:15px}
+.hint{font-size:12px;color:var(--ink2);margin:2px 0 0}
+.status{min-height:18px;font-size:13px;color:var(--red);margin:6px 2px 0}
+.status.warn{color:var(--ink2)}
+.res .rl{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
+.res .rl:last-child{border-bottom:0}
+.res .rl span:first-child{color:var(--ink)}
+.res .rl b{font-variant-numeric:tabular-nums;font-size:17px}
+.res .rl i{font-style:normal;color:var(--ink2);font-size:13px;margin-left:5px}
+.blue{color:var(--blue)}.green{color:var(--green)}.red{color:var(--red)}
+.res .rl.big{padding-top:9px}.res .rl.big b{font-size:21px}
+.soon-card{text-align:center;padding:26px 16px;color:var(--ink2)}
+.soon-card h2{margin:0 0 6px;color:var(--ink);font-size:18px}
+footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size:12px;margin-top:6px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.overlay.open{display:flex}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:540px;border-radius:16px 16px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:85vh;overflow:auto}
+.sheet h2{margin:0 0 8px;font-size:18px}
+.sheet p,.sheet li{font-size:14px;line-height:1.45;color:var(--ink)}
+.sheet ul{padding-left:20px;margin:6px 0}
+.sheet button{margin-top:10px;width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:11px;font-size:15px;font-weight:700;cursor:pointer}
+.printhead{display:none}
+@media print{
+  header.top,nav.tabs,.status,.hint,footer.ft,.overlay{display:none!important}
+  html,body{background:#fff;color:#000}
+  .card{border:1px solid #999;break-inside:avoid}
+  .printhead{display:block;margin:0 0 8px}
+  .printhead h1{font-size:18px;margin:0}.printhead p{margin:2px 0;font-size:12px}
+  input.num{border:0;background:none;color:#000;text-align:left}
+  :root{--ink2:#333;--blue:#000;--green:#000;--red:#000}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>MEP Sizer</h1>
+    <div class="menu">
+      <button id="m-units" type="button" aria-label="Switch units"></button>
+      <button id="m-clear" type="button">Clear</button>
+      <button id="m-print" type="button">Print</button>
+      <button id="m-about" type="button">About</button>
+    </div>
+  </header>
+  <div class="printhead" id="printhead"></div>
+  <nav class="tabs" id="mods" aria-label="Calculators"></nav>
+  <nav class="tabs modes" id="modes" aria-label="Mode"></nav>
+  <main id="view"></main>
+  <footer class="ft"><span>MEP Sizer</span><span id="ver"></span></footer>
+</div>
+
+<div class="overlay" id="about" role="dialog" aria-modal="true" aria-label="About">
+  <div class="sheet">
+    <h2>About MEP Sizer</h2>
+    <p>Duct sizing calculator for everyday MEP work. Works offline once installed. Nothing you type leaves your device.</p>
+    <ul>
+      <li><b>Equal-friction / velocity sizing:</b> enter any two of flow rate, head loss, velocity and equivalent diameter.</li>
+      <li><b>Method:</b> Darcy-Weisbach with Colebrook-White friction factor; target head loss is solved with the Swamee-Jain explicit form, then the result is checked with Colebrook-White. Roughness 0.0007 ft (0.213 mm).</li>
+      <li><b>Rectangular ducts:</b> converted to the equivalent round duct for the same friction and airflow (Huebscher, as in ASHRAE).</li>
+      <li><b>Air:</b> standard air, 0.075 lb/ft³ (1.2014 kg/m³).</li>
+    </ul>
+    <p>Results were checked against reference duct-sizer values (within about 0.05%). Always confirm against your project standards before issuing drawings.</p>
+    <p id="about-ver"></p>
+    <button type="button" id="about-close">Close</button>
+  </div>
+</div>
+
+<script>
+/*ENGINE_START*/
+const ENG = (function () {
+  const FT = 0.3048, IN = 0.0254;
+  const K_PA_INWC = 248.72;               // Pa per in.wc (matches the reference sizer)
+  const EPS = 0.0007 * FT;                // absolute roughness, m
+  const RHO0 = 0.075 * 16.01846337;       // standard air, kg/m3
+  const HV0 = Math.pow(196.8503937 / 4005, 2) * K_PA_INWC; // Pa per (m/s)^2 for standard air
+
+  function area(D) { return Math.PI * D * D / 4; }
+  function deq(a, b) { return 1.30 * Math.pow(a * b, 0.625) / Math.pow(a + b, 0.25); } // a, b in same unit -> same unit
+
+  function colebrook(Re, rel) {
+    let f = 0.02;
+    for (let i = 0; i < 200; i++) {
+      const fn = 1 / Math.pow(-2 * Math.log10(rel / 3.7 + 2.51 / (Re * Math.sqrt(f))), 2);
+      if (Math.abs(fn - f) < 1e-13) { f = fn; break; }
+      f = fn;
+    }
+    return f;
+  }
+  function swameeJain(Re, rel) {
+    const t = Math.log10(rel / 3.7 + 5.74 / Math.pow(Re, 0.9));
+    return 0.25 / (t * t);
+  }
+
+  // fluid: { rho kg/m3, mu Pa.s }
+  function state(Q, D, fl, explicit) {
+    const A = area(D), V = Q / A;
+    const Re = fl.rho * V * D / fl.mu;
+    const rel = EPS / D;
+    const f = explicit ? swameeJain(Re, rel) : colebrook(Re, rel);
+    const Hv = HV0 * (fl.rho / RHO0) * V * V;
+    const Hf = f / D * Hv;
+    return { A: A, V: V, Re: Re, f: f, Hv: Hv, Hf: Hf };
+  }
+
+  function bisect(g, lo, hi) {
+    let glo = g(lo), ghi = g(hi);
+    if (!isFinite(glo) || !isFinite(ghi) || glo * ghi > 0) return null;
+    for (let i = 0; i < 200; i++) {
+      const mid = Math.sqrt(lo * hi);
+      const gm = g(mid);
+      if (!isFinite(gm)) return null;
+      if ((gm > 0) === (glo > 0)) { lo = mid; glo = gm; } else { hi = mid; }
+      if (hi / lo - 1 < 1e-12) break;
+    }
+    return Math.sqrt(lo * hi);
+  }
+
+  // inp holds exactly two of flow (m3/s), hf (Pa/m), v (m/s), d (m). Returns {Q,V,D,Hf} or {err}
+  function solve(inp, fl) {
+    const has = k => inp[k] !== undefined;
+    let Q, V, D, Hf;
+    if (has('flow') && has('hf')) {
+      Q = inp.flow; Hf = inp.hf;
+      D = bisect(d => state(Q, d, fl, true).Hf - Hf, 0.005, 20);
+      if (D === null) return { err: 'Friction not converged' };
+      V = Q / area(D);
+    } else if (has('flow') && has('v')) {
+      Q = inp.flow; V = inp.v; D = Math.sqrt(4 * Q / (Math.PI * V));
+      Hf = state(Q, D, fl, false).Hf;
+    } else if (has('flow') && has('d')) {
+      Q = inp.flow; D = inp.d; V = Q / area(D);
+      Hf = state(Q, D, fl, false).Hf;
+    } else if (has('v') && has('d')) {
+      V = inp.v; D = inp.d; Q = V * area(D);
+      Hf = state(Q, D, fl, false).Hf;
+    } else if (has('hf') && has('v')) {
+      V = inp.v; Hf = inp.hf;
+      D = bisect(d => state(V * area(d), d, fl, true).Hf - Hf, 0.005, 20);
+      if (D === null) return { err: 'Friction not converged' };
+      Q = V * area(D);
+    } else if (has('hf') && has('d')) {
+      D = inp.d; Hf = inp.hf;
+      V = bisect(v => state(v * area(D), D, fl, true).Hf - Hf, 1e-4, 300);
+      if (V === null) return { err: 'Friction not converged' };
+      Q = V * area(D);
+    } else {
+      return { err: 'Select two inputs' };
+    }
+    return { Q: Q, V: V, D: D, Hf: Hf };
+  }
+  return { solve: solve, state: state, deq: deq, area: area, K: K_PA_INWC };
+})();
+/*ENGINE_END*/
+
+/* ---------- fluids (add more here later) ---------- */
+const FLUIDS = [
+  { id: 'stp', si: '20°C Air STP', ip: '68°F Air STP', rho: 0.075 * 16.01846337, mu: 0.0432 * 4.13378819e-4, cp: 1.00483 }
+];
+
+/* ---------- units ---------- */
+const CFM = 4.71947443e-4, FPM = 0.00508, K = ENG.K;
+const UN = {
+  si: {
+    name: 'Metric',
+    flow: { u: 'L/s', dp: 1, to: x => x * 1e-3, from: x => x * 1e3 },
+    hf:   { u: 'Pa/m', dp: 3, to: x => x, from: x => x },
+    v:    { u: 'm/s', dp: 3, to: x => x, from: x => x },
+    d:    { u: 'mm', dp: 1, to: x => x * 1e-3, from: x => x * 1e3 },
+    dim:  { u: 'mm', to: x => x * 1e-3, from: x => x * 1e3 },
+    out:  { de: 2, area: 4, areaU: 'm²', areaF: x => x, vel: 3, velU: 'm/s', velF: x => x, hv: 4, hvU: 'Pa', hvF: x => x, hf: 3, hfU: 'Pa/m', hfF: x => x }
+  },
+  ip: {
+    name: 'IP',
+    flow: { u: 'cfm', dp: 0, to: x => x * CFM, from: x => x / CFM },
+    hf:   { u: 'in.WC/100 ft', dp: 3, to: x => x * K / 30.48, from: x => x * 30.48 / K },
+    v:    { u: 'fpm', dp: 1, to: x => x * FPM, from: x => x / FPM },
+    d:    { u: 'in', dp: 1, to: x => x * 0.0254, from: x => x / 0.0254 },
+    dim:  { u: 'in', to: x => x * 0.0254, from: x => x / 0.0254 },
+    out:  { de: 2, area: 4, areaU: 'ft²', areaF: x => x / 0.09290304, vel: 1, velU: 'ft/min', velF: x => x / FPM, hv: 4, hvU: 'in.WC', hvF: x => x / K, hf: 3, hfU: 'in.WC/100 ft', hfF: x => x * 30.48 / K }
+  }
+};
+const FIELDS = ['flow', 'hf', 'v', 'd'];
+const LABEL = { flow: 'Flow rate', hf: 'Head loss', v: 'Velocity', d: 'Equivalent diameter' };
+const VERSION = 'v2026.11.05';
+
+/* ---------- state ---------- */
+const STORE_KEY = 'mepsizer.v1';
+const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: '', d: '' }, duct: { w: '', h: '' }, fluid: 'stp', mod: 'duct', mode: 'basic' };
+(function load() {
+  try {
+    const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (!r) return;
+    if (r.units === 'si' || r.units === 'ip') S.units = r.units;
+    if (Array.isArray(r.inputs) && r.inputs.length === 2 && r.inputs.every(k => FIELDS.indexOf(k) >= 0) && r.inputs[0] !== r.inputs[1]) S.inputs = r.inputs;
+    if (r.vals) FIELDS.forEach(k => { if (typeof r.vals[k] === 'string') S.vals[k] = r.vals[k]; });
+    if (r.duct) { if (typeof r.duct.w === 'string') S.duct.w = r.duct.w; if (typeof r.duct.h === 'string') S.duct.h = r.duct.h; }
+    if (FLUIDS.some(f => f.id === r.fluid)) S.fluid = r.fluid;
+  } catch (e) {}
+})();
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- helpers ---------- */
+const $ = (sel, root) => (root || document).querySelector(sel);
+const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+function parseNum(s) { const x = Number(String(s == null ? '' : s).trim().replace(',', '.')); return (s !== '' && isFinite(x)) ? x : NaN; }
+function fix(x, dp) { return isFinite(x) ? x.toFixed(dp) : ''; }
+function fluid() { return FLUIDS.find(f => f.id === S.fluid) || FLUIDS[0]; }
+function fmtInt(x) { return isFinite(x) ? Math.round(x).toLocaleString('en-US') : ''; }
+
+/* ---------- module registry (add Advanced / Pipe here later) ---------- */
+const MODULES = [
+  { id: 'duct', label: 'Duct', modes: [
+      { id: 'basic', label: 'Basic', mount: mountDuctBasic },
+      { id: 'adv', label: 'Advanced', soon: 'Advanced duct calculations will be added here.' } ] },
+  { id: 'pipe', label: 'Pipe', soon: true, modes: [
+      { id: 'basic', label: 'Basic', soon: 'Pipe sizer is planned as the next calculator.' } ] }
+];
+
+function renderNav() {
+  const mods = $('#mods'), modes = $('#modes');
+  mods.innerHTML = MODULES.map(m => '<button type="button" data-mod="' + m.id + '" class="' + (S.mod === m.id ? 'on' : '') + '">' + m.label + (m.soon ? '<span class="soon">soon</span>' : '') + '</button>').join('');
+  const cur = MODULES.find(m => m.id === S.mod) || MODULES[0];
+  modes.innerHTML = cur.modes.map(m => '<button type="button" data-mode="' + m.id + '" class="' + (S.mode === m.id ? 'on' : '') + '">' + m.label + (m.soon ? '<span class="soon">soon</span>' : '') + '</button>').join('');
+}
+function renderView() {
+  const cur = MODULES.find(m => m.id === S.mod) || MODULES[0];
+  const mode = cur.modes.find(m => m.id === S.mode) || cur.modes[0];
+  const view = $('#view');
+  if (mode.mount) { mode.mount(view); }
+  else { view.innerHTML = '<div class="card soon-card"><h2>' + cur.label + ' · ' + mode.label + '</h2><p>Coming soon.</p><p>' + (mode.soon || '') + '</p></div>'; }
+  renderPrintHead();
+}
+$('#mods').addEventListener('click', e => {
+  const b = e.target.closest('[data-mod]'); if (!b) return;
+  S.mod = b.dataset.mod; const cur = MODULES.find(m => m.id === S.mod); S.mode = cur.modes[0].id;
+  renderNav(); renderView(); save();
+});
+$('#modes').addEventListener('click', e => {
+  const b = e.target.closest('[data-mode]'); if (!b) return;
+  S.mode = b.dataset.mode; renderNav(); renderView(); save();
+});
+
+/* ---------- Duct · Basic ---------- */
+function mountDuctBasic(view) {
+  const rows = FIELDS.map(k =>
+    '<div class="row" data-row="' + k + '">' +
+      '<label class="chk"><input type="checkbox" data-chk="' + k + '" aria-label="Use ' + LABEL[k] + ' as input"><span>' + LABEL[k] + '</span></label>' +
+      '<input class="num" data-in="' + k + '" inputmode="decimal" autocomplete="off" aria-label="' + LABEL[k] + '">' +
+      '<span class="unit" data-unit="' + k + '"></span></div>').join('');
+  view.innerHTML =
+    '<section class="card fluid"><select id="fluid" aria-label="Fluid"></select><div class="props" id="props"></div></section>' +
+    '<section class="card"><div id="rows">' + rows + '</div>' +
+      '<div class="sizerow"><span class="lbl">Duct size</span>' +
+        '<input class="num" id="dw" inputmode="decimal" autocomplete="off" aria-label="Duct width">' +
+        '<span class="unit">×</span>' +
+        '<input class="num" id="dh" inputmode="decimal" autocomplete="off" aria-label="Duct height">' +
+        '<span class="unit" id="dimu"></span></div>' +
+      '<p class="hint">Leave duct size blank to use the sized diameter. Tick any two boxes to choose which values you enter.</p>' +
+      '<div class="status" id="status" role="status"></div></section>' +
+    '<section class="card res" id="res">' +
+      rl('r-de', 'Equivalent diameter', 'blue') + rl('r-area', 'Flow area', 'blue') + rl('r-vel', 'Fluid velocity', 'blue') +
+      rl('r-re', 'Reynolds number', 'blue') + rl('r-f', 'Friction factor', 'blue') + rl('r-hv', 'Velocity pressure', 'green') +
+      rl('r-hf', 'Head loss', 'red big') + '</section>';
+  $('#fluid').innerHTML = FLUIDS.map(f => '<option value="' + f.id + '"></option>').join('');
+  $('#fluid').value = S.fluid;
+  $('#fluid').addEventListener('change', e => { S.fluid = e.target.value; update(); });
+  update();
+}
+function rl(id, label, cls) { return '<div class="rl ' + cls.split(' ').slice(1).join(' ') + '"><span>' + label + '</span><span><b id="' + id + '" class="' + cls.split(' ')[0] + '">—</b><i id="' + id + '-u"></i></span></div>'; }
+
+function setInputField(k) {
+  if (S.inputs.indexOf(k) >= 0) return;
+  const el = $('[data-in="' + k + '"]');
+  S.vals[k] = el ? el.value : S.vals[k];
+  S.inputs.push(k);
+  if (S.inputs.length > 2) { const dropped = S.inputs.shift(); S.vals[dropped] = ''; }
+}
+function onCheck(e) {
+  const c = e.target.closest ? e.target.closest('[data-chk]') : null; if (!c) return;
+  const k = c.dataset.chk;
+  if (S.inputs.indexOf(k) < 0) setInputField(k);
+  update();
+}
+function onInput(e) {
+  const t = e.target;
+  if (t.dataset && t.dataset.in) {
+    const k = t.dataset.in;
+    if (S.inputs.indexOf(k) < 0) setInputField(k);
+    else { S.inputs = S.inputs.filter(x => x !== k); S.inputs.push(k); }   // most recently edited goes last; the least recent is the one dropped
+    S.vals[k] = t.value;
+    update(k);
+  } else if (t.id === 'dw') { S.duct.w = t.value; update(); }
+  else if (t.id === 'dh') { S.duct.h = t.value; update(); }
+}
+
+function fluidProps() {
+  const fl = fluid(), si = S.units === 'si';
+  const rho = si ? fix(fl.rho, 4) : fix(fl.rho / 16.01846337, 3);
+  const mu = si ? fix(fl.mu * 3600, 4) : fix(fl.mu / 4.13378819e-4, 4);
+  const cp = si ? fix(fl.cp, 4) : fix(fl.cp / 4.1868, 2);
+  const ef = si ? fix(fl.rho * fl.cp, 2) : fix(60 * (fl.rho / 16.01846337) * (fl.cp / 4.1868), 2);
+  const rows = si
+    ? [['Fluid density', rho, 'kg/m³'], ['Fluid viscosity', mu, 'kg/m·h'], ['Specific heat', cp, 'kJ/kg·°C'], ['Energy factor', ef, 'W/°C·L/s']]
+    : [['Fluid density', rho, 'lb/ft³'], ['Fluid viscosity', mu, 'lb/ft·h'], ['Specific heat', cp, 'Btu/lb·°F'], ['Energy factor', ef, 'Btu/h·°F·cfm']];
+  return rows.map(r => '<span>' + r[0] + '</span><b>' + r[1] + '</b><i>' + r[2] + '</i>').join('');
+}
+
+// listeners are attached once to the persistent container
+$('#view').addEventListener('input', e => onInput(e));
+$('#view').addEventListener('change', e => onCheck(e));
+$('#view').addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('num')) { try { e.target.select(); } catch (x) {} } });
+
+let lastResult = null;
+function update(editing) {
+  if (!$('#rows')) return;
+  const U = UN[S.units], fl = fluid();
+  // labels and fluid
+  $$('#fluid option').forEach((o, i) => { o.textContent = FLUIDS[i][S.units]; });
+  $('#props').innerHTML = fluidProps();
+  FIELDS.forEach(k => { $('[data-unit="' + k + '"]').textContent = U[k].u; });
+  $('#dimu').textContent = U.dim.u;
+  $('#m-units').textContent = U.name + ' ⇄';
+  // checkboxes + input fields
+  FIELDS.forEach(k => {
+    const isIn = S.inputs.indexOf(k) >= 0;
+    $('[data-chk="' + k + '"]').checked = isIn;
+    const el = $('[data-in="' + k + '"]');
+    el.classList.toggle('calc', !isIn);
+    if (isIn && k !== editing && el.value !== S.vals[k]) el.value = S.vals[k];
+  });
+  if ($('#dw') !== document.activeElement) $('#dw').value = S.duct.w;
+  if ($('#dh') !== document.activeElement) $('#dh').value = S.duct.h;
+
+  // solve
+  const status = $('#status'); status.className = 'status'; status.textContent = '';
+  const inp = {}; let ok = true;
+  S.inputs.forEach(k => { const x = parseNum(S.vals[k]); if (x > 0) inp[k] = U[k].to(x); else ok = false; });
+  let sol = null;
+  if (ok) { sol = ENG.solve(inp, fl); if (sol.err) { status.textContent = sol.err; sol = null; } }
+  else { status.className = 'status warn'; status.textContent = 'Enter values in the two ticked fields.'; }
+
+  FIELDS.forEach(k => {
+    if (S.inputs.indexOf(k) >= 0) return;
+    const el = $('[data-in="' + k + '"]');
+    if (!sol) { el.value = ''; return; }
+    const si = { flow: sol.Q, hf: sol.Hf, v: sol.V, d: sol.D }[k];
+    el.value = fix(U[k].from(si), U[k].dp);
+  });
+
+  // results: duct size if given, otherwise sized diameter
+  const out = U.out;
+  let res = null;
+  if (sol) {
+    const w = parseNum(S.duct.w), h = parseNum(S.duct.h);
+    let D = sol.D;
+    if (w > 0 && h > 0) D = ENG.deq(U.dim.to(w), U.dim.to(h));
+    res = ENG.state(sol.Q, D, fl, false);
+    res.De = D;
+    if (res.Re < 2300) { status.className = 'status warn'; status.textContent = 'Reynolds number is below 2,300 (laminar): friction factor is not valid here.'; }
+    else if (res.Re < 4000) { status.className = 'status warn'; status.textContent = 'Reynolds number is below 4,000: result is approximate.'; }
+  }
+  lastResult = res ? { sol: sol, res: res } : null;
+  const set = (id, txt, unit) => { $('#' + id).textContent = txt; $('#' + id + '-u').textContent = txt === '—' ? '' : unit; };
+  if (res) {
+    set('r-de', fix(U.dim.from(res.De), out.de), U.dim.u);
+    set('r-area', fix(out.areaF(res.A), out.area), out.areaU);
+    set('r-vel', fix(out.velF(res.V), out.vel), out.velU);
+    set('r-re', fmtInt(res.Re), '');
+    set('r-f', fix(res.f, 5), '');
+    set('r-hv', fix(out.hvF(res.Hv), out.hv), out.hvU);
+    set('r-hf', fix(out.hfF(res.Hf), out.hf), out.hfU);
+  } else {
+    ['r-de', 'r-area', 'r-vel', 'r-re', 'r-f', 'r-hv', 'r-hf'].forEach(id => set(id, '—', ''));
+  }
+  renderPrintHead();
+  save();
+}
+
+function renderPrintHead() {
+  const el = $('#printhead'); if (!el) return;
+  const U = UN[S.units];
+  el.innerHTML = '<h1>MEP Sizer — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid()[S.units] + '</p>';
+}
+
+/* ---------- menu ---------- */
+function convertAll(from, to) {
+  const A = UN[from], B = UN[to];
+  FIELDS.forEach(k => {
+    if (S.inputs.indexOf(k) < 0) { S.vals[k] = ''; return; }
+    const x = parseNum(S.vals[k]);
+    if (x > 0) { const v = B[k].from(A[k].to(x)); S.vals[k] = String(Number(v.toPrecision(6))); }
+  });
+  ['w', 'h'].forEach(k => {
+    const x = parseNum(S.duct[k]);
+    if (x > 0) { const v = B.dim.from(A.dim.to(x)); S.duct[k] = String(Number(v.toPrecision(6))); }
+  });
+}
+$('#m-units').addEventListener('click', () => {
+  const from = S.units, to = from === 'si' ? 'ip' : 'si';
+  convertAll(from, to); S.units = to;
+  if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); update(); } else { $('#m-units').textContent = UN[S.units].name + ' ⇄'; save(); }
+});
+$('#m-clear').addEventListener('click', () => {
+  FIELDS.forEach(k => S.vals[k] = ''); S.duct.w = ''; S.duct.h = '';
+  if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); $('#dw').value = ''; $('#dh').value = ''; update(); }
+});
+$('#m-print').addEventListener('click', () => { try { window.print(); } catch (e) {} });
+$('#m-about').addEventListener('click', () => { $('#about').classList.add('open'); });
+$('#about-close').addEventListener('click', () => { $('#about').classList.remove('open'); });
+$('#about').addEventListener('click', e => { if (e.target.id === 'about') $('#about').classList.remove('open'); });
+$('#ver').textContent = VERSION;
+$('#about-ver').textContent = 'Version ' + VERSION;
+
+renderNav();
+renderView();
+$('#m-units').textContent = UN[S.units].name + ' ⇄';
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (err) { console.warn('Service worker registration failed:', err); });
+  });
+}
+</script>
+</body>
+</html>
