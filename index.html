@@ -136,7 +136,8 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
       <li><b>Equal-friction / velocity sizing:</b> enter any two of flow rate, head loss, velocity and equivalent diameter.</li>
       <li><b>Method:</b> Darcy-Weisbach with Colebrook-White friction factor; target head loss is solved with the Swamee-Jain explicit form, then the result is checked with Colebrook-White. Roughness 0.0007 ft (0.213 mm).</li>
       <li><b>Rectangular ducts:</b> converted to the equivalent round duct for the same friction and airflow (Huebscher, as in ASHRAE).</li>
-      <li><b>Air:</b> standard air, 0.075 lb/ft³ (1.2014 kg/m³).</li>
+      <li><b>Air:</b> standard air and four humid-air conditions (Metric and IP each have their own list).</li>
+      <li><b>Head loss</b> is on the standard-air chart basis; <b>velocity pressure</b> and <b>Reynolds number</b> use the selected air.</li>
     </ul>
     <p>Results were checked against reference duct-sizer values (within about 0.05%). Always confirm against your project standards before issuing drawings.</p>
     <p id="about-ver"></p>
@@ -176,8 +177,8 @@ const ENG = (function () {
     const Re = fl.rho * V * D / fl.mu;
     const rel = EPS / D;
     const f = explicit ? swameeJain(Re, rel) : colebrook(Re, rel);
-    const Hv = HV0 * (fl.rho / RHO0) * V * V;
-    const Hf = f / D * Hv;
+    const Hv = HV0 * (fl.rho / RHO0) * V * V;      // velocity pressure: real air density
+    const Hf = f / D * HV0 * V * V;                // head loss: standard-air basis (chart basis, as in the reference sizer)
     return { A: A, V: V, Re: Re, f: f, Hv: Hv, Hf: Hf };
   }
 
@@ -235,9 +236,24 @@ const ENG = (function () {
 })();
 /*ENGINE_END*/
 
-/* ---------- fluids (add more here later) ---------- */
+/* ---------- fluids: values taken from the reference sizer; Metric and IP have their own conditions ---------- */
+const IPRHO = 16.01846337, IPMU = 4.13378819e-4;   // lb/ft3 -> kg/m3, lb/(ft.h) -> Pa.s
 const FLUIDS = [
-  { id: 'stp', si: '20°C Air STP', ip: '68°F Air STP', rho: 0.075 * 16.01846337, mu: 0.0432 * 4.13378819e-4, cp: 1.00483 }
+  { id: 'stp', cp: 1.00483,
+    si: { label: '20°C Air STP', rho: 0.075 * IPRHO, mu: 0.0432 * IPMU, shown: { rho: '1.2014', mu: '0.0643' } },
+    ip: { label: '68°F Air STP', rho: 0.075 * IPRHO, mu: 0.0432 * IPMU, shown: { rho: '0.075', mu: '0.0432' } } },
+  { id: 'rh97', cp: 1.00483,
+    si: { label: '13°C Air at 97% RH and 1 atm', rho: 1.2158, mu: 0.063689 / 3600, shown: { rho: '1.2158', mu: '0.0637' } },
+    ip: { label: '55°F Air at 97% RH and 1 atm', rho: 0.0759 * IPRHO, mu: 0.042800 * IPMU, shown: { rho: '0.0759', mu: '0.0428' } } },
+  { id: 'rh50', cp: 1.00483,
+    si: { label: '25°C Air at 50% RH and 1 atm', rho: 1.171, mu: 0.065626 / 3600, shown: { rho: '1.171', mu: '0.0656' } },
+    ip: { label: '75°F Air at 50% RH and 1 atm', rho: 0.0731 * IPRHO, mu: 0.044100 * IPMU, shown: { rho: '0.0731', mu: '0.0441' } } },
+  { id: 'rh23', cp: 1.00483,
+    si: { label: '37°C Air at 23% RH and 1 atm', rho: 1.1184, mu: 0.068030 / 3600, shown: { rho: '1.1184', mu: '0.068' } },
+    ip: { label: '100°F Air at 23% RH and 1 atm', rho: 0.0698 * IPRHO, mu: 0.045707 * IPMU, shown: { rho: '0.0698', mu: '0.0457' } } },
+  { id: 'rh11', cp: 1.00483,
+    si: { label: '52°C Air at 11% RH and 1 atm', rho: 1.0708, mu: 0.070435 / 3600, shown: { rho: '1.0708', mu: '0.0705' } },
+    ip: { label: '125°F Air at 11% RH and 1 atm', rho: 0.06679 * IPRHO, mu: 0.0473 * IPMU, shown: { rho: '0.0669', mu: '0.0473' } } }
 ];
 
 /* ---------- units ---------- */
@@ -292,7 +308,10 @@ const $ = (sel, root) => (root || document).querySelector(sel);
 const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
 function parseNum(s) { const x = Number(String(s == null ? '' : s).trim().replace(',', '.')); return (s !== '' && isFinite(x)) ? x : NaN; }
 function fix(x, dp) { return isFinite(x) ? x.toFixed(dp) : ''; }
-function fluid() { return FLUIDS.find(f => f.id === S.fluid) || FLUIDS[0]; }
+function fluid() {
+  const f = FLUIDS.find(x => x.id === S.fluid) || FLUIDS[0], u = f[S.units];
+  return { id: f.id, label: u.label, rho: u.rho, mu: u.mu, cp: f.cp, shown: u.shown };
+}
 function fmtInt(x) { return isFinite(x) ? Math.round(x).toLocaleString('en-US') : ''; }
 
 /* ---------- module registry (add Advanced / Pipe here later) ---------- */
@@ -418,8 +437,7 @@ function commitDuct(e) {
 
 function fluidProps() {
   const fl = fluid(), si = S.units === 'si';
-  const rho = si ? fix(fl.rho, 4) : fix(fl.rho / 16.01846337, 3);
-  const mu = si ? fix(fl.mu * 3600, 4) : fix(fl.mu / 4.13378819e-4, 4);
+  const rho = fl.shown.rho, mu = fl.shown.mu;
   const cp = si ? fix(fl.cp, 4) : fix(fl.cp / 4.1868, 2);
   const ef = si ? fix(fl.rho * fl.cp, 2) : fix(60 * (fl.rho / 16.01846337) * (fl.cp / 4.1868), 2);
   const rows = si
@@ -440,7 +458,7 @@ function update(editing) {
   if (!$('#rows')) return;
   const U = UN[S.units], fl = fluid();
   // labels and fluid
-  $$('#fluid option').forEach((o, i) => { o.textContent = FLUIDS[i][S.units]; });
+  $$('#fluid option').forEach((o, i) => { o.textContent = FLUIDS[i][S.units].label; });
   $('#props').innerHTML = fluidProps();
   FIELDS.forEach(k => { $('[data-unit="' + k + '"]').textContent = U[k].u; });
   $('#dimu').textContent = U.dim.u;
@@ -466,8 +484,10 @@ function update(editing) {
   if (ok) { sol = ENG.solve(inp, fl); if (sol.err) { status.textContent = sol.err; sol = null; } }
   // (incomplete inputs: results simply stay empty, no message)
 
+  let Ddisp = null;
+  if (sol) Ddisp = U.d.to(Number(fix(U.d.from(sol.D), U.d.dp)));
   if (sol) {
-    syncAutoSide(sol.D);
+    syncAutoSide(Ddisp);
     if ($('#dw') !== document.activeElement) $('#dw').value = S.duct.w;
     if ($('#dh') !== document.activeElement) $('#dh').value = S.duct.h;
     $('#dw').classList.toggle('calc', S.duct.auto === 'w');
@@ -486,7 +506,7 @@ function update(editing) {
   let res = null;
   if (sol) {
     const w = parseNum(S.duct.w), h = parseNum(S.duct.h);
-    let D = sol.D;
+    let D = Ddisp;
     if (w > 0 && h > 0) D = ENG.deq(U.dim.to(w), U.dim.to(h));
     res = ENG.state(sol.Q, D, fl, false);
     res.De = D;
@@ -513,7 +533,7 @@ function update(editing) {
 function renderPrintHead() {
   const el = $('#printhead'); if (!el) return;
   const U = UN[S.units];
-  el.innerHTML = '<h1>MEP Sizer — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid()[S.units] + '</p>';
+  el.innerHTML = '<h1>MEP Sizer — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid().label + '</p>';
 }
 
 /* ---------- menu ---------- */
