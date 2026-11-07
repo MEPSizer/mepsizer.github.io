@@ -86,6 +86,39 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .seg{display:flex;gap:6px}
 .sheet .seg button{margin-top:0;flex:1;background:var(--chip);color:var(--ink);border-radius:10px;padding:10px 6px;font-size:14.5px;font-weight:600}
 .sheet .seg button.on{background:var(--accent);color:var(--accent-ink)}
+
+/* ---------- home page, category pages, header rows ---------- */
+[hidden]{display:none!important}
+.hrow{display:flex;align-items:center;gap:8px}
+.hrow h1{flex:1;min-width:0}
+.hbtns{display:flex;gap:6px;flex:0 0 auto}
+.hbtns button{background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:8px 12px;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.hbtns button:active,.back:active{background:rgba(255,255,255,.25)}
+.hbtns button.ico{padding:8px 11px;display:inline-flex;align-items:center}
+.hbtns button.ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.back{flex:0 0 auto;background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:7px 9px;cursor:pointer;display:inline-flex;align-items:center}
+.back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.crumb{font-size:13px;color:var(--ink2);margin:0 2px 8px;font-weight:600}
+.crumb:empty{display:none}
+.pagehead{margin:2px 2px 12px}
+.pagehead h2{margin:0;font-size:22px}
+.pagehead p{margin:2px 0 0;color:var(--ink2);font-size:13.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile,.box{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;color:var(--ink);font:inherit;cursor:pointer;padding:14px 8px;text-align:center}
+.tile{aspect-ratio:1/.95}
+.box{aspect-ratio:1/.8}
+.tile:active,.box:active{transform:scale(.97)}
+.ticon,.bicon{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--tc,var(--accent));color:#fff}
+.ticon{width:66px;height:66px}.ticon svg{width:34px;height:34px}
+.bicon{width:50px;height:50px}.bicon svg{width:27px;height:27px}
+.ticon svg,.bicon svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tlabel{font-size:17px;font-weight:700}
+.blabel{font-size:15px;font-weight:700}
+.box.todo .bicon{opacity:.55}
+.badge{position:absolute;top:8px;right:8px;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--ink2);background:var(--chip);border-radius:999px;padding:2px 7px}
+.box.soonbox{border-style:dashed;background:transparent;cursor:default;color:var(--ink2)}
+.box.soonbox:active{transform:none}
+.box.soonbox .blabel{font-weight:600}
 .printhead{display:none}
 @media print{
   header.top,nav.tabs,.status,.hint,footer.ft,.overlay{display:none!important}
@@ -203,17 +236,22 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 </script>
 <div class="wrap">
   <header class="top">
-    <h1>MEPtools</h1>
-    <div class="menu">
+    <div class="hrow">
+      <button id="m-back" class="back" type="button" aria-label="Back" title="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1>MEPtools</h1>
+      <div class="hbtns">
+        <button id="m-about" type="button">About</button>
+        <button id="m-settings" class="ico" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      </div>
+    </div>
+    <div class="menu" id="tool-actions" hidden>
       <button id="m-units" type="button" aria-label="Switch units"></button>
       <button id="m-clear" type="button">Clear</button>
       <button id="m-print" type="button">Print</button>
-      <button id="m-about" type="button">About</button>
-      <button id="m-settings" class="ico" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
   </header>
   <div class="printhead" id="printhead"></div>
-  <nav class="tabs" id="mods" aria-label="Calculators"></nav>
+  <div class="crumb" id="crumb"></div>
   <nav class="tabs modes" id="modes" aria-label="Mode"></nav>
   <main id="view"></main>
   <footer class="ft"><span>Created By: Kadir-ekhasti</span><span id="ver"></span></footer>
@@ -384,11 +422,11 @@ const UN = {
 };
 const FIELDS = ['flow', 'hf', 'v', 'd'];
 const LABEL = { flow: 'Flow rate', hf: 'Head loss', v: 'Velocity', d: 'Equivalent diameter' };
-const VERSION = 'v2026.11.08';
+const VERSION = 'v2026.11.09';
 
 /* ---------- state ---------- */
 const STORE_KEY = 'mepsizer.v1';
-const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: '', d: '' }, duct: { w: '', h: '', auto: null, pending: null }, fluid: 'stp', mod: 'duct', mode: 'basic', theme: 'system' };
+const S = { units: 'si', inputs: ['flow', 'hf'], vals: { flow: '', hf: '', v: '', d: '' }, duct: { w: '', h: '', auto: null, pending: null }, fluid: 'stp', mode: 'basic', theme: 'system' };
 (function load() {
   try {
     const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
@@ -418,37 +456,119 @@ function fluid() {
 }
 function fmtInt(x) { return isFinite(x) ? Math.round(x).toLocaleString('en-US') : ''; }
 
-/* ---------- module registry (add Advanced / Pipe here later) ---------- */
-const MODULES = [
-  { id: 'duct', label: 'Duct', modes: [
-      { id: 'basic', label: 'Basic', mount: mountDuctBasic },
-      { id: 'adv', label: 'Advanced', soon: 'Advanced duct calculations will be added here.' } ] },
-  { id: 'pipe', label: 'Pipe', soon: true, modes: [
-      { id: 'basic', label: 'Basic', soon: 'Pipe sizer is planned as the next calculator.' } ] }
+/* ---------- categories and tools (add new tools here) ----------
+   A category holds a list of tools. To add a tool, add one object to that category's "tools" list:
+   { id, label, icon, actions: ['units','clear','print'], modes?: [...], mount?: fn, soon?: 'text' }
+   Tools without "mount" (or with "soon") open a "Coming soon" page. A category page always shows at least 4 boxes. */
+const svg = inner => '<svg viewBox="0 0 24 24" aria-hidden="true">' + inner + '</svg>';
+const ICON = {
+  hvac: svg('<path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>'),
+  plumbing: svg('<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>'),
+  electrical: svg('<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>'),
+  convertors: svg('<path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>'),
+  misc: svg('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>'),
+  stddoc: svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>'),
+  duct: svg('<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="4"/>'),
+  pipe: svg('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>'),
+  slope: svg('<path d="M3 19h18M3 19L19 8"/><path d="M9 19a6 6 0 0 0-1.4-3.6"/>'),
+  rw: svg('<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>')
+};
+const ACTIONS = ['units', 'clear', 'print'];
+
+const CATEGORIES = [
+  { id: 'hvac', label: 'HVAC', color: '#2f80ed', icon: ICON.hvac, min: 4, tools: [
+      { id: 'duct', label: 'Duct Sizer', icon: ICON.duct, actions: ACTIONS, printTitle: 'Duct sizing',
+        onUnits: (from, to) => convertAll(from, to),
+        refresh: () => { if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); update(); } },
+        onClear: () => {
+          FIELDS.forEach(k => S.vals[k] = ''); S.duct.w = ''; S.duct.h = ''; S.duct.auto = null; S.duct.pending = null;
+          if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); $('#dw').value = ''; $('#dh').value = ''; update(); }
+        },
+        modes: [
+          { id: 'basic', label: 'Basic', mount: mountDuctBasic },
+          { id: 'adv', label: 'Advanced', soon: 'Advanced duct calculations will be added here.' } ] } ] },
+  { id: 'plumbing', label: 'Plumbing', color: '#12a4b8', icon: ICON.plumbing, min: 4, tools: [
+      { id: 'pipe-sizer', label: 'Pipe Sizer', icon: ICON.pipe, actions: ACTIONS, soon: 'Pipe sizer is planned as the next calculator.' },
+      { id: 'pipe-slope', label: 'Pipe Slope', icon: ICON.slope, actions: ACTIONS, soon: 'Pipe slope calculator is planned.' },
+      { id: 'rw-calci', label: 'RW Calci', icon: ICON.rw, actions: ACTIONS, soon: 'Rain water calculator is planned.' } ] },
+  { id: 'electrical', label: 'Electrical', color: '#f5a623', icon: ICON.electrical, min: 4, tools: [] },
+  { id: 'convertors', label: 'Convertors', color: '#8e6bff', icon: ICON.convertors, min: 4, tools: [] },
+  { id: 'misc', label: 'Misc', color: '#2dbf8a', icon: ICON.misc, min: 4, tools: [] },
+  { id: 'stddoc', label: 'Std. Doc.', color: '#ef6a5b', icon: ICON.stddoc, min: 4, tools: [] }
 ];
 
-function renderNav() {
-  const mods = $('#mods'), modes = $('#modes');
-  mods.innerHTML = MODULES.map(m => '<button type="button" data-mod="' + m.id + '" class="' + (S.mod === m.id ? 'on' : '') + '">' + m.label + (m.soon ? '<span class="soon">soon</span>' : '') + '</button>').join('');
-  const cur = MODULES.find(m => m.id === S.mod) || MODULES[0];
-  modes.innerHTML = cur.modes.map(m => '<button type="button" data-mode="' + m.id + '" class="' + (S.mode === m.id ? 'on' : '') + '">' + m.label + (m.soon ? '<span class="soon">soon</span>' : '') + '</button>').join('');
+const NAV = { cat: null, tool: null };
+const findCat = id => CATEGORIES.find(c => c.id === id) || null;
+function currentTool() { const c = findCat(NAV.cat); return (c && c.tools.find(t => t.id === NAV.tool)) || null; }
+function toolModes(t) { return t.modes || [{ id: 'main', label: t.label, mount: t.mount, soon: t.soon }]; }
+function activeMode(t) { const ms = toolModes(t); return ms.find(m => m.id === S.mode) || ms[0]; }
+
+function homeHTML() {
+  return '<div class="grid">' + CATEGORIES.map(c =>
+    '<button type="button" class="tile" data-cat="' + c.id + '" style="--tc:' + c.color + '"><span class="ticon">' + c.icon + '</span><span class="tlabel">' + c.label + '</span></button>').join('') + '</div>';
 }
-function renderView() {
-  const cur = MODULES.find(m => m.id === S.mod) || MODULES[0];
-  const mode = cur.modes.find(m => m.id === S.mode) || cur.modes[0];
-  const view = $('#view');
-  if (mode.mount) { mode.mount(view); }
-  else { view.innerHTML = '<div class="card soon-card"><h2>' + cur.label + ' · ' + mode.label + '</h2><p>Coming soon.</p><p>' + (mode.soon || '') + '</p></div>'; }
-  renderPrintHead();
+function categoryHTML(c) {
+  const n = c.tools.length, total = Math.max(c.min || 4, n + (n % 2));
+  let h = '<div class="pagehead"><h2>' + c.label + '</h2></div><div class="grid">';
+  c.tools.forEach(t => {
+    const todo = !toolModes(t).some(m => m.mount);
+    h += '<button type="button" class="box' + (todo ? ' todo' : '') + '" data-tool="' + t.id + '" style="--tc:' + c.color + '">' +
+      (todo ? '<span class="badge">Soon</span>' : '') + '<span class="bicon">' + t.icon + '</span><span class="blabel">' + t.label + '</span></button>';
+  });
+  for (let i = n; i < total; i++) h += '<div class="box soonbox" aria-disabled="true"><span class="blabel">Soon...</span></div>';
+  return h + '</div>';
 }
-$('#mods').addEventListener('click', e => {
-  const b = e.target.closest('[data-mod]'); if (!b) return;
-  S.mod = b.dataset.mod; const cur = MODULES.find(m => m.id === S.mod); S.mode = cur.modes[0].id;
-  renderNav(); renderView(); save();
+function updateActions() {
+  const t = currentTool(), bar = $('#tool-actions');
+  const show = t && t.actions && activeMode(t).mount ? t.actions : [];
+  bar.hidden = show.length === 0;
+  $('#m-units').hidden = show.indexOf('units') < 0;
+  $('#m-clear').hidden = show.indexOf('clear') < 0;
+  $('#m-print').hidden = show.indexOf('print') < 0;
+  $('#m-units').textContent = UN[S.units].name + ' ⇄';
+}
+function renderModes() {
+  const t = currentTool(), el = $('#modes');
+  if (!t || !t.modes) { el.innerHTML = ''; return; }
+  el.innerHTML = t.modes.map(m => '<button type="button" data-mode="' + m.id + '" class="' + (activeMode(t).id === m.id ? 'on' : '') + '">' + m.label + (m.soon ? '<span class="soon">soon</span>' : '') + '</button>').join('');
+}
+function render() {
+  const view = $('#view'), crumb = $('#crumb'), cat = findCat(NAV.cat), tool = currentTool();
+  $('#m-back').hidden = !cat;
+  if (!cat) { crumb.textContent = ''; view.innerHTML = homeHTML(); }
+  else if (!tool) { crumb.textContent = ''; view.innerHTML = categoryHTML(cat); }
+  else {
+    crumb.textContent = cat.label + ' › ' + tool.label;
+    const mode = activeMode(tool);
+    if (mode.mount) mode.mount(view);
+    else view.innerHTML = '<div class="card soon-card"><h2>' + tool.label + (tool.modes ? ' · ' + mode.label : '') + '</h2><p>Coming soon.</p><p>' + (mode.soon || '') + '</p></div>';
+  }
+  renderModes(); updateActions(); renderPrintHead();
+}
+function go(cat, tool, push) {
+  NAV.cat = cat || null; NAV.tool = tool || null;
+  if (tool) { const t = currentTool(); if (t) S.mode = toolModes(t)[0].id; }
+  if (push !== false) { try { history.pushState({ cat: NAV.cat, tool: NAV.tool }, ''); } catch (e) {} }
+  render();
+  try { window.scrollTo(0, 0); } catch (e) {}
+}
+window.addEventListener('popstate', e => {
+  const st = e.state || {};
+  NAV.cat = st.cat || null; NAV.tool = st.tool || null;
+  render();
+});
+try { history.replaceState({ cat: null, tool: null }, ''); } catch (e) {}
+$('#view').addEventListener('click', e => {
+  const c = e.target.closest('[data-cat]'); if (c) { go(c.dataset.cat, null); return; }
+  const t = e.target.closest('[data-tool]'); if (t) go(NAV.cat, t.dataset.tool);
+});
+$('#m-back').addEventListener('click', () => {
+  if (NAV.tool) { go(NAV.cat, null, false); try { history.back(); } catch (e) {} return; }
+  go(null, null, false); try { history.back(); } catch (e) {}
 });
 $('#modes').addEventListener('click', e => {
   const b = e.target.closest('[data-mode]'); if (!b) return;
-  S.mode = b.dataset.mode; renderNav(); renderView(); save();
+  S.mode = b.dataset.mode; render(); save();
 });
 
 /* ---------- Duct · Basic ---------- */
@@ -636,8 +756,8 @@ function update(editing) {
 
 function renderPrintHead() {
   const el = $('#printhead'); if (!el) return;
-  const U = UN[S.units];
-  el.innerHTML = '<h1>MEPtools — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid().label + '</p>';
+  const U = UN[S.units], t = currentTool();
+  el.innerHTML = '<h1>MEPtools' + (t ? ' — ' + (t.printTitle || t.label) : '') + '</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units' + (t && t.id === 'duct' ? ' · ' + fluid().label : '') + '</p>';
 }
 
 /* ---------- menu ---------- */
@@ -654,14 +774,13 @@ function convertAll(from, to) {
   });
 }
 $('#m-units').addEventListener('click', () => {
-  const from = S.units, to = from === 'si' ? 'ip' : 'si';
-  convertAll(from, to); S.units = to;
-  if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); update(); } else { $('#m-units').textContent = UN[S.units].name + ' ⇄'; save(); }
+  const from = S.units, to = from === 'si' ? 'ip' : 'si', t = currentTool();
+  if (t && t.onUnits) t.onUnits(from, to);
+  S.units = to; updateActions();
+  if (t && t.refresh) t.refresh();
+  save();
 });
-$('#m-clear').addEventListener('click', () => {
-  FIELDS.forEach(k => S.vals[k] = ''); S.duct.w = ''; S.duct.h = ''; S.duct.auto = null; S.duct.pending = null;
-  if ($('#rows')) { $$('[data-in]').forEach(el => { el.value = ''; }); $('#dw').value = ''; $('#dh').value = ''; update(); }
-});
+$('#m-clear').addEventListener('click', () => { const t = currentTool(); if (t && t.onClear) t.onClear(); });
 $('#m-print').addEventListener('click', () => { try { window.print(); } catch (e) {} });
 function applyTheme() {
   const r = document.documentElement;
@@ -685,9 +804,7 @@ $('#about').addEventListener('click', e => { if (e.target.id === 'about') $('#ab
 $('#ver').textContent = 'Version: ' + VERSION;
 $('#about-ver').textContent = 'Version ' + VERSION;
 
-renderNav();
-renderView();
-$('#m-units').textContent = UN[S.units].name + ' ⇄';
+render();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
