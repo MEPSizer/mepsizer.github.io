@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>MEP Sizer</title>
+<title>MEPtools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E2A3A">
 <meta name="color-scheme" content="light dark">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="MEP Sizer">
+<meta name="apple-mobile-web-app-title" content="MEPtools">
 <link rel="manifest" href="./manifest.json">
 <link rel="preload" as="font" type="font/woff2" href="./fonts/great-vibes-latin-400-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="./fonts/outfit-latin-600-normal.woff2" crossorigin>
@@ -203,7 +203,7 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 </script>
 <div class="wrap">
   <header class="top">
-    <h1>MEP Sizer</h1>
+    <h1>MEPtools</h1>
     <div class="menu">
       <button id="m-units" type="button" aria-label="Switch units"></button>
       <button id="m-clear" type="button">Clear</button>
@@ -234,7 +234,7 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 
 <div class="overlay" id="about" role="dialog" aria-modal="true" aria-label="About">
   <div class="sheet">
-    <h2>About MEP Sizer</h2>
+    <h2>About MEPtools</h2>
     <p>Duct sizing calculator for everyday MEP work. Works offline once installed. Nothing you type leaves your device.</p>
     <ul>
       <li><b>Equal-friction / velocity sizing:</b> enter any two of flow rate, head loss, velocity and equivalent diameter.</li>
@@ -384,7 +384,7 @@ const UN = {
 };
 const FIELDS = ['flow', 'hf', 'v', 'd'];
 const LABEL = { flow: 'Flow rate', hf: 'Head loss', v: 'Velocity', d: 'Equivalent diameter' };
-const VERSION = 'v2026.11.06';
+const VERSION = 'v2026.11.08';
 
 /* ---------- state ---------- */
 const STORE_KEY = 'mepsizer.v1';
@@ -637,7 +637,7 @@ function update(editing) {
 function renderPrintHead() {
   const el = $('#printhead'); if (!el) return;
   const U = UN[S.units];
-  el.innerHTML = '<h1>MEP Sizer — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid().label + '</p>';
+  el.innerHTML = '<h1>MEPtools — Duct sizing (Basic)</h1><p>' + new Date().toLocaleString() + ' · ' + U.name + ' units · ' + fluid().label + '</p>';
 }
 
 /* ---------- menu ---------- */

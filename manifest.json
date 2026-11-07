@@ -1,6 +1,6 @@
 {
-  "name": "MEP Sizer",
-  "short_name": "MEP Sizer",
+  "name": "MEPtools",
+  "short_name": "MEPtools",
   "description": "Duct sizing calculator for MEP work (metric and IP units)",
   "start_url": "./",
   "scope": "./",
