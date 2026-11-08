@@ -132,15 +132,48 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .box.soonbox{border-style:dashed;background:transparent;cursor:default;color:var(--ink2)}
 .box.soonbox:active{transform:none}
 .box.soonbox .blabel{font-weight:600}
+
+/* ---------- Pipe Slope and Rain Water Calci ---------- */
+.row .lbl{font-weight:600;font-size:15px;min-width:0}
+.row .lbl small{display:block;font-weight:400;color:var(--ink2);font-size:11.5px;line-height:1.1}
+input.txt{width:100%;font:inherit;font-size:16px;padding:8px 9px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);min-width:0}
+input.txt:focus{outline:2px solid var(--accent)}
+#view .row select{width:100%;font:inherit;font-weight:600;padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.btnrow{display:flex;gap:8px;margin:10px 0 2px}
+.btnrow button{flex:1;border:0;border-radius:10px;padding:11px;font-size:15px;font-weight:700;cursor:pointer}
+.btnrow .primary{background:var(--accent);color:var(--accent-ink)}
+.btnrow .secondary{background:var(--chip);color:var(--ink)}
+.tablecard{overflow-x:auto;padding:8px 8px 10px}
+table.pipetable{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+table.pipetable th{text-align:right;color:var(--ink2);font-weight:600;font-size:11.5px;padding:6px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.pipetable th:first-child,table.pipetable td:first-child{text-align:left;width:28px}
+table.pipetable th:nth-child(2),table.pipetable td:nth-child(2){text-align:left}
+table.pipetable td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.pipetable tr:last-child td{border-bottom:0}
+table.pipetable td.del{text-align:center;width:28px;padding:0}
+table.pipetable td.del button{background:none;border:0;color:var(--red);font-size:16px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:6px}
+table.pipetable td.del button:active{background:var(--chip)}
+.empty{color:var(--ink2);font-size:13.5px;text-align:center;padding:14px 6px}
+.authority-card{padding:10px 8px}
+.authority-card .auth-title{font-weight:700;font-size:14px;margin:0 0 8px;text-align:center}
+table.auth-table{width:100%;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}
+table.auth-table th,table.auth-table td{border:1px solid var(--line);padding:6px 4px;white-space:nowrap}
+table.auth-table th{background:var(--chip);font-weight:700;color:var(--ink);text-align:center}
+table.auth-table td{text-align:left;vertical-align:middle;padding-left:6px}
+table.auth-table td:first-child{text-align:center;padding-left:4px}
+table.auth-table .val{display:flex;align-items:center;gap:4px}
+table.auth-table .shape-sq{display:inline-block;width:10px;height:10px;background:var(--blue);border-radius:1px;flex-shrink:0}
+table.auth-table .shape-ci{display:inline-block;width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0}
 .printhead{display:none}
 @media print{
-  header.top,nav.tabs,.status,.hint,footer.ft,.overlay{display:none!important}
+  header.top,nav.tabs,.status,.hint,footer.ft,.overlay,.btnrow,td.del,.authority-card{display:none!important}
   html,body{background:#fff;color:#000}
   body::before,.brand{display:none!important}
   .card{border:1px solid #999;break-inside:avoid}
   .printhead{display:block;margin:0 0 8px}
   .printhead h1{font-size:18px;margin:0}.printhead p{margin:2px 0;font-size:12px}
-  input.num{border:0;background:none;color:#000;text-align:left}
+  input.num,input.txt,#view .row select{border:0;background:none;color:#000;text-align:left}
+  table.auth-table .shape-sq,table.auth-table .shape-ci{border:1px solid #000;background:#000}
   :root{--ink2:#333;--blue:#000;--green:#000;--red:#000}
 }
 
@@ -326,6 +359,8 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
       <li><b>Equal-friction / velocity sizing:</b> enter any two of flow rate, head loss, velocity and equivalent diameter.</li>
       <li><b>Method:</b> Darcy-Weisbach with Colebrook-White friction factor; target head loss is solved with the Swamee-Jain explicit form, then the result is checked with Colebrook-White. Roughness 0.0007 ft (0.213 mm).</li>
       <li><b>Rectangular ducts:</b> converted to the equivalent round duct for the same friction and airflow (Huebscher, as in ASHRAE).</li>
+      <li><b>Pipe Slope:</b> enter the start IL and the distance from the previous point; each new point only needs its distance. Slope ratio (default 1:120) and direction (Up to Down / Down to Up) apply to the whole table.</li>
+      <li><b>Rain Water Calci:</b> Q uses the correct Metric or IP formula; RWO is based on 272 m² (approximately 2,927.78 ft²) per outlet as a planning reference.</li>
       <li><b>Air:</b> standard air and four humid-air conditions (Metric and IP each have their own list).</li>
       <li><b>Head loss</b> is on the standard-air chart basis; <b>velocity pressure</b> and <b>Reynolds number</b> use the selected air.</li>
     </ul>
@@ -470,7 +505,7 @@ const UN = {
 };
 const FIELDS = ['flow', 'hf', 'v', 'd'];
 const LABEL = { flow: 'Flow rate', hf: 'Head loss', v: 'Velocity', d: 'Equivalent diameter' };
-const VERSION = 'v2026.11.07';
+const VERSION = 'v2026.11.08';
 
 /* ---------- state ---------- */
 const STORE_KEY = 'mepsizer.v1';
@@ -503,6 +538,373 @@ function fluid() {
   return { id: f.id, label: u.label, rho: u.rho, mu: u.mu, cp: f.cp, shown: u.shown };
 }
 function fmtInt(x) { return isFinite(x) ? Math.round(x).toLocaleString('en-US') : ''; }
+
+/*DRSW_ENGINE_START*/
+const DRSW_ENG = (function () {
+  const FT3_PER_M3 = 35.3146667215;
+  const SQFT_PER_M2 = 10.7639104167;
+  function invertLevel(prevIL, dist, ratio, dir) {
+    if (!Number.isFinite(prevIL) || !Number.isFinite(dist) || dist < 0 || !(ratio > 0)) return NaN;
+    const delta = dist / ratio;
+    return dir === 'up' ? prevIL + delta : prevIL - delta;
+  }
+  function rainwaterFlow(A, I, C, units) {
+    if (![A, I, C].every(Number.isFinite) || A <= 0 || I <= 0 || C < 0 || C > 1) return NaN;
+    // Inputs are m² and mm/hr in Metric, ft² and in/hr in IP.
+    return units === 'ip' ? (A * I * C) / 12 : (A * I * C) / 1000;
+  }
+  function rwoRequired(A, units, areaPerRwo) {
+    if (!Number.isFinite(A) || A <= 0 || !Number.isFinite(areaPerRwo) || areaPerRwo <= 0) return NaN;
+    const areaM2 = units === 'ip' ? A / SQFT_PER_M2 : A;
+    const referenceM2 = units === 'ip' ? areaPerRwo / SQFT_PER_M2 : areaPerRwo;
+    return Math.ceil(areaM2 / referenceM2);
+  }
+  return { invertLevel, rainwaterFlow, rwoRequired, FT3_PER_M3, SQFT_PER_M2 };
+})();
+/*DRSW_ENGINE_END*/
+
+/* ---------- Pipe Slope + Rain Water Calci (from the DR-SW app; state is kept in S.drsw, units follow the whole app) ---------- */
+const DRSW = (function () {
+  const defaultsSlope = () => ({ ratio: '120', dir: 'down', il: '', dist: '', point: 'MH-01', table: [] });
+  const defaultsRain = () => ({ A: '', I: '100', C: '0.9', rwoArea: S.units === 'ip' ? '2927.78' : '272' });
+  const D = S.drsw = { slope: defaultsSlope(), rain: defaultsRain() };
+  (function loadSaved() {
+    try {
+      const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+      const x = r && r.drsw; if (!x) return;
+      if (x.slope && typeof x.slope === 'object') {
+        ['ratio', 'dir', 'il', 'dist', 'point'].forEach(k => { if (typeof x.slope[k] === 'string') D.slope[k] = x.slope[k]; });
+        if (Array.isArray(x.slope.table)) D.slope.table = x.slope.table.filter(row => row && isFinite(row.il) && isFinite(row.dist) && isFinite(row.diff));
+      }
+      if (x.rain && typeof x.rain === 'object') ['A', 'I', 'C', 'rwoArea'].forEach(k => { if (typeof x.rain[k] === 'string') D.rain[k] = x.rain[k]; });
+    } catch (e) {}
+  })();
+  const UNX = {
+  si: {
+    name: 'Metric',
+    il:   { u: 'mm',    to: x => x,          from: x => x },
+    dist: { u: 'mm',    to: x => x,          from: x => x },
+    area: { u: 'm²',    to: x => x,          from: x => x },
+    rain: { u: 'mm/hr', to: x => x,          from: x => x },
+    flow: { u: 'm³/hr', to: x => x,          from: x => x }
+  },
+  ip: {
+    name: 'IP',
+    il:   { u: 'in',     to: x => x * 25.4,                    from: x => x / 25.4 },
+    dist: { u: 'in',     to: x => x * 25.4,                    from: x => x / 25.4 },
+    area: { u: 'ft²',    to: x => x / DRSW_ENG.SQFT_PER_M2,    from: x => x * DRSW_ENG.SQFT_PER_M2 },
+    rain: { u: 'in/hr',  to: x => x * 25.4,                    from: x => x / 25.4 },
+    flow: { u: 'ft³/hr', to: x => x / DRSW_ENG.FT3_PER_M3,     from: x => x * DRSW_ENG.FT3_PER_M3 }
+  }
+};
+  function parseNum(s) { const raw = String(s == null ? '' : s).trim(); if (!raw) return NaN; const x = Number(raw.replace(',', '.')); return Number.isFinite(x) ? x : NaN; }
+function fix(x, dp) { return isFinite(x) ? x.toFixed(dp) : ''; }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function autoIncrementPoint(str) {
+  if (!str) return 'MH-01';
+  const match = str.match(/^(.*?)(\d+)$/);
+  if (match) {
+    const prefix = match[1];
+    const numStr = match[2];
+    const nextNum = parseInt(numStr, 10) + 1;
+    const nextStr = String(nextNum).padStart(numStr.length, '0');
+    return prefix + nextStr;
+  }
+  return str + '-2';
+}
+
+function rl(id, label, cls) {
+  const parts = (cls || '').split(' ');
+  const color = parts[0] || '';
+  const extra = parts.slice(1).join(' ');
+  return '<div class="rl ' + extra + '"><span>' + label + '</span><span><b id="' + id + '" class="' + color + '">—</b><i id="' + id + '-u"></i></span></div>';
+}
+
+function mountSlope(view) {
+  const t = D.slope;
+  view.innerHTML =
+    '<section class="card">' +
+      '<div class="row"><span class="lbl">Slope ratio<small>Applies to the whole table</small></span>' +
+        '<input class="num" id="ps-ratio" inputmode="decimal" autocomplete="off" aria-label="Slope ratio">' +
+        '<span class="unit">1 : ?</span></div>' +
+      '<div class="row"><span class="lbl">Direction</span>' +
+        '<select id="ps-dir" style="grid-column:span 2" aria-label="Direction">' +
+          '<option value="down">Up to Down</option>' +
+          '<option value="up">Down to Up</option>' +
+        '</select></div>' +
+    '</section>' +
+    '<section class="card">' +
+      '<div class="row"><span class="lbl">Point</span>' +
+        '<input class="txt" id="ps-point" autocomplete="off" aria-label="Point">' +
+        '<span class="unit"></span></div>' +
+      '<div class="row"><span class="lbl">Invert Level</span>' +
+        '<input class="num" id="ps-il" inputmode="decimal" autocomplete="off" aria-label="Invert level">' +
+        '<span class="unit" id="ps-il-u"></span></div>' +
+      '<div class="row"><span class="lbl">Distance from previous<small>Leave empty on the first point</small></span>' +
+        '<input class="num" id="ps-dist" inputmode="decimal" autocomplete="off" aria-label="Distance from previous">' +
+        '<span class="unit" id="ps-dist-u"></span></div>' +
+      '<div class="btnrow"><button type="button" class="primary" id="ps-add">Add to table</button><button type="button" class="secondary" id="ps-clr">Clear</button></div>' +
+      '<div class="status" id="ps-status" role="status"></div>' +
+      '<div class="res" style="margin-top:8px">' +
+        rl('ps-prev', 'Prev IL', 'blue') +
+        rl('ps-calc', 'Calc IL', 'green big') +
+        rl('ps-diff', 'Diff', 'red') +
+      '</div>' +
+    '</section>' +
+    '<section class="card tablecard">' +
+      '<div style="font-weight:700;font-size:15px;margin:0 0 6px">Table</div>' +
+      '<div id="ps-tablewrap"></div>' +
+    '</section>' +
+    '<!-- UPDATED AUTHORITY TABLE -->\n  <section class="card tablecard authority-card">\n    <div class="auth-title">Manhole Standard Sizes</div>\n    <table class="auth-table">\n      <thead>\n        <tr>\n          <th colspan="2">Manhole</th>\n          <th colspan="2">Cover</th>\n        </tr>\n        <tr>\n          <th>Depth (mm)</th>\n          <th>Size</th>\n          <th>Sewerage (DR)</th>\n          <th>Storm Water (SW)</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td>0-1300</td>\n          <td><div class="val"><span class="shape-sq"></span> 600x600</div></td>\n          <td><div class="val"><span class="shape-sq"></span> 600x600</div></td>\n          <td><div class="val"><span class="shape-ci"></span> Ø600</div></td>\n        </tr>\n        <tr>\n          <td>1301-1700</td>\n          <td><div class="val"><span class="shape-sq"></span> 1000x1000</div></td>\n          <td><div class="val"><span class="shape-sq"></span> 600x600</div></td>\n          <td><div class="val"><span class="shape-ci"></span> Ø600</div></td>\n        </tr>\n        <tr>\n          <td>1701-2500</td>\n          <td><div class="val"><span class="shape-ci"></span> Ø1000</div></td>\n          <td><div class="val"><span class="shape-sq"></span> 600x600</div></td>\n          <td><div class="val"><span class="shape-ci"></span> Ø600</div></td>\n        </tr>\n        <tr>\n          <td>2501-4000</td>\n          <td><div class="val"><span class="shape-ci"></span> Ø1500</div></td>\n          <td><div class="val"><span class="shape-sq"></span> 600x600</div></td>\n          <td><div class="val"><span class="shape-ci"></span> Ø600</div></td>\n        </tr>\n      </tbody>\n    </table>\n  </section>';
+  $('#ps-ratio').value = t.ratio;
+  $('#ps-dir').value = t.dir;
+  $('#ps-point').value = t.point;
+  $('#ps-il').value = t.il;
+  $('#ps-dist').value = t.dist;
+  refreshSlopUnits();
+  renderSlopTable();
+  updateSlopPreview();
+}
+
+function refreshSlopUnits() {
+  const U = UNX[S.units];
+  if ($('#ps-il-u')) $('#ps-il-u').textContent = U.il.u;
+  if ($('#ps-dist-u')) $('#ps-dist-u').textContent = U.dist.u;
+}
+
+function currentPrevIL() {
+  const t = D.slope;
+  if (t.table.length === 0) return parseNum(t.il);
+  return t.table[t.table.length - 1].il;
+}
+
+function updateSlopPreview() {
+  const t = D.slope;
+  const ratio = parseNum(t.ratio);
+  const prev = currentPrevIL();
+  const dist = parseNum(t.dist);
+  const setTxt = (id, txt, unit) => { const b = $('#' + id); const u = $('#' + id + '-u'); if (b) b.textContent = txt; if (u) u.textContent = unit || ''; };
+  const U = UNX[S.units];
+  
+  if (isFinite(prev)) setTxt('ps-prev', fix(prev, 2), U.il.u); else setTxt('ps-prev', '—', '');
+  
+  if (t.table.length === 0) {
+    if (isFinite(prev)) {
+       setTxt('ps-calc', fix(prev, 2), U.il.u);
+       setTxt('ps-diff', '0.00', U.il.u);
+    } else {
+       setTxt('ps-calc', '—', '');
+       setTxt('ps-diff', '—', '');
+    }
+  } else {
+    if (isFinite(prev) && isFinite(dist) && ratio > 0) {
+      const calc = DRSW_ENG.invertLevel(prev, dist, ratio, t.dir);
+      setTxt('ps-calc', fix(calc, 2), U.il.u);
+      setTxt('ps-diff', fix(calc - prev, 2), U.il.u);
+    } else {
+      setTxt('ps-calc', '—', '');
+      setTxt('ps-diff', '—', '');
+    }
+  }
+}
+
+function renderSlopTable() {
+  const wrap = $('#ps-tablewrap'); if (!wrap) return;
+  const t = D.slope;
+  if (!t.table.length) { wrap.innerHTML = '<div class="empty">No points yet. Add the first point above.</div>'; return; }
+  let html = '<table class="pipetable"><thead><tr><th>#</th><th>Point</th><th>IL</th><th>Dist from Prev</th><th>Diff</th><th></th></tr></thead><tbody>';
+  t.table.forEach((row, i) => {
+    html += '<tr>' +
+      '<td>' + (i + 1) + '</td>' +
+      '<td>' + esc(row.point) + '</td>' +
+      '<td>' + (isFinite(row.il) ? fix(row.il, 0) : '') + '</td>' +
+      '<td>' + (isFinite(row.dist) ? fix(row.dist, 0) : '—') + '</td>' +
+      '<td>' + fix(row.diff, 2) + '</td>' +
+      '<td class="del"><button type="button" data-del="' + i + '" aria-label="Delete row">✕</button></td>' +
+    '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function recalcTableFrom(idx) {
+  const t = D.slope;
+  const ratio = parseNum(t.ratio);
+  if (idx <= 0) idx = 1;
+  for (let i = idx; i < t.table.length; i++) {
+    const prev = t.table[i - 1];
+    if (!(ratio > 0) || !isFinite(t.table[i].dist)) { t.table[i].il = NaN; t.table[i].diff = NaN; continue; }
+    const previousIL = Number(prev.il);
+    t.table[i].il = DRSW_ENG.invertLevel(previousIL, t.table[i].dist, ratio, t.dir);
+    t.table[i].diff = t.table[i].il - previousIL;
+  }
+}
+
+function addSlopRow() {
+  const t = D.slope;
+  const ratio = parseNum(t.ratio);
+  const status = $('#ps-status'); status.className = 'status'; status.textContent = '';
+  const pointName = (t.point || '').trim() || 'MH-01';
+  const dist = parseNum(t.dist);
+  const prev = currentPrevIL();
+  if (!(ratio > 0)) { status.textContent = 'Slope ratio must be greater than zero.'; return; }
+  
+  if (t.table.length === 0) {
+    if (!isFinite(prev)) { status.textContent = 'Enter the start IL for the first point.'; return; }
+    t.table.push({ point: pointName, il: prev, dist: 0, diff: 0 });
+  } else {
+    if (!(prev > -Infinity) || !isFinite(prev)) { status.textContent = 'Previous IL is missing.'; return; }
+    if (!isFinite(dist) || dist < 0) { status.textContent = 'Enter the distance from the previous point.'; return; }
+    
+    const il = DRSW_ENG.invertLevel(prev, dist, ratio, t.dir);
+    t.table.push({ point: pointName, il: il, dist: dist, diff: il - prev });
+  }
+  
+  t.point = autoIncrementPoint(pointName);
+  
+  t.il = ''; t.dist = '';
+  $('#ps-point').value = t.point;
+  $('#ps-il').value = '';
+  $('#ps-dist').value = '';
+  $('#ps-il').classList.add('calc');
+  renderSlopTable();
+  updateSlopPreview();
+  save();
+}
+
+function clearSlopInputs() {
+  const t = D.slope;
+  t.il = ''; t.dist = '';
+  $('#ps-il').value = '';
+  $('#ps-dist').value = '';
+  updateSlopPreview();
+  save();
+}
+
+$('#view').addEventListener('input', e => {
+  const t = e.target;
+  if (!t || !t.id) return;
+  if (t.id === 'ps-ratio') { D.slope.ratio = t.value; recalcTableFrom(1); renderSlopTable(); updateSlopPreview(); save(); }
+  else if (t.id === 'ps-point') { D.slope.point = t.value; save(); }
+  else if (t.id === 'ps-il') { D.slope.il = t.value; updateSlopPreview(); save(); }
+  else if (t.id === 'ps-dist') { D.slope.dist = t.value; updateSlopPreview(); save(); }
+  else if (t.id === 'rw-A') { D.rain.A = t.value; updateRain(); save(); }
+  else if (t.id === 'rw-I') { D.rain.I = t.value; updateRain(); save(); }
+  else if (t.id === 'rw-C') { D.rain.C = t.value; updateRain(); save(); }
+  else if (t.id === 'rw-rwo-area') { D.rain.rwoArea = t.value; refreshRainUnits(); updateRain(); save(); }
+});
+$('#view').addEventListener('change', e => {
+  const t = e.target;
+  if (!t || !t.id) return;
+  if (t.id === 'ps-dir') { D.slope.dir = t.value; recalcTableFrom(1); renderSlopTable(); updateSlopPreview(); save(); }
+});
+$('#view').addEventListener('click', e => {
+  const t = e.target.closest ? e.target : null;
+  if (!t) return;
+  if (t.id === 'ps-add') { addSlopRow(); return; }
+  if (t.id === 'ps-clr') { clearSlopInputs(); return; }
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    const i = parseInt(del.dataset.del, 10);
+    D.slope.table.splice(i, 1);
+    recalcTableFrom(1);
+    renderSlopTable();
+    updateSlopPreview();
+    save();
+  }
+});
+
+function mountRain(view) {
+  view.innerHTML =
+    '<section class="card">' +
+      '<div class="row"><span class="lbl">Catchment Area (A)</span>' +
+        '<input class="num" id="rw-A" inputmode="decimal" autocomplete="off" aria-label="Catchment area">' +
+        '<span class="unit" id="rw-A-u"></span></div>' +
+      '<div class="row"><span class="lbl">Rainfall Intensity (I)</span>' +
+        '<input class="num" id="rw-I" inputmode="decimal" autocomplete="off" aria-label="Rainfall intensity">' +
+        '<span class="unit" id="rw-I-u"></span></div>' +
+      '<div class="row"><span class="lbl">Runoff Coefficient (C)</span>' +
+        '<input class="num" id="rw-C" inputmode="decimal" autocomplete="off" aria-label="Runoff coefficient">' +
+        '<span class="unit"></span></div>' +
+      '<div class="status" id="rw-status" role="status"></div>' +
+    '</section>' +
+    '<section class="card res">' +
+      rl('rw-q', 'Rainwater Flow (Q)', 'blue big') +
+      rl('rw-rwo', 'RWO Required', 'green big') +
+    '</section>' +
+    '<section class="card"><p class="hint" id="rw-formula"></p>' +
+      '<div class="row"><span class="lbl">IPC reference: 1 RWO per<small>Editable area per outlet</small></span>' +
+        '<input class="num" id="rw-rwo-area" inputmode="decimal" autocomplete="off" aria-label="Area per RWO">' +
+        '<span class="unit" id="rw-rwo-area-u"></span></div>' +
+      '<p class="hint">Editable reference. Confirm the required outlet capacity against project/local standards.</p></section>'; 
+  $('#rw-A').value = D.rain.A;
+  $('#rw-I').value = D.rain.I;
+  $('#rw-C').value = D.rain.C;
+  $('#rw-rwo-area').value = D.rain.rwoArea;
+  refreshRainUnits();
+  updateRain();
+}
+function refreshRainUnits() {
+  const U = UNX[S.units];
+  if ($('#rw-A-u')) $('#rw-A-u').textContent = U.area.u;
+  if ($('#rw-I-u')) $('#rw-I-u').textContent = U.rain.u;
+  if ($('#rw-formula')) {
+    const ref = parseNum(D.rain.rwoArea);
+    $('#rw-formula').textContent = S.units === 'ip' ? 'Q = A × I × C / 12 (ft³/hr) · RWO = ROUNDUP(A / ' + (Number.isFinite(ref) ? ref.toLocaleString('en-US', {maximumFractionDigits: 2}) : '—') + ')' : 'Q = A × I × C / 1000 (m³/hr) · RWO = ROUNDUP(A / ' + (Number.isFinite(ref) ? ref.toLocaleString('en-US', {maximumFractionDigits: 2}) : '—') + ')';
+  }
+  if ($('#rw-rwo-area-u')) $('#rw-rwo-area-u').textContent = UNX[S.units].area.u;
+}
+function updateRain() {
+  if (!$('#rw-A')) return;
+  const U = UNX[S.units];
+  const A = parseNum(D.rain.A), I = parseNum(D.rain.I), C = parseNum(D.rain.C), rwoArea = parseNum(D.rain.rwoArea);
+  const status = $('#rw-status'); status.className = 'status'; status.textContent = '';
+  const set = (id, txt, unit) => { const b = $('#' + id); const u = $('#' + id + '-u'); if (b) b.textContent = txt; if (u) u.textContent = unit || ''; };
+  if (![A, I, C].every(Number.isFinite)) {
+    set('rw-q', '—', ''); set('rw-rwo', '—', '');
+    return;
+  }
+  if (A <= 0) status.textContent = 'Catchment area must be greater than zero.';
+  else if (I <= 0) status.textContent = 'Rainfall intensity must be greater than zero.';
+  else if (C < 0 || C > 1) status.textContent = 'Runoff coefficient must be between 0 and 1.';
+  else if (!(rwoArea > 0)) status.textContent = 'Area per RWO must be greater than zero.';
+  if (status.textContent) {
+    set('rw-q', '—', ''); set('rw-rwo', '—', '');
+    return;
+  }
+  const q = DRSW_ENG.rainwaterFlow(A, I, C, S.units);
+  const rwo = DRSW_ENG.rwoRequired(A, S.units, rwoArea);
+  set('rw-q', fix(q, 3), U.flow.u);
+  set('rw-rwo', Number.isFinite(rwo) ? String(rwo) : '—', '');
+}
+
+function convert(from, to) {
+  const A = UNX[from], B = UNX[to];
+  function conv(val, keyA, keyB) {
+    const x = parseNum(val);
+    if (!Number.isFinite(x)) return val;
+    const canonical = A[keyA].to(x);
+    return String(Number(B[keyB].from(canonical).toPrecision(8)));
+  }
+  if (D.slope.il !== '') D.slope.il = conv(D.slope.il, 'il', 'il');
+  if (D.slope.dist !== '') D.slope.dist = conv(D.slope.dist, 'dist', 'dist');
+  D.slope.table.forEach(row => {
+    if (Number.isFinite(Number(row.il))) row.il = Number(B.il.from(A.il.to(Number(row.il))).toPrecision(8));
+    if (Number.isFinite(Number(row.dist))) row.dist = Number(B.dist.from(A.dist.to(Number(row.dist))).toPrecision(8));
+    if (Number.isFinite(Number(row.diff))) row.diff = Number(B.il.from(A.il.to(Number(row.diff))).toPrecision(8));
+  });
+  if (D.rain.A !== '') D.rain.A = conv(D.rain.A, 'area', 'area');
+  if (D.rain.rwoArea !== '') D.rain.rwoArea = conv(D.rain.rwoArea, 'area', 'area');
+  if (D.rain.I !== '') D.rain.I = conv(D.rain.I, 'rain', 'rain');
+}
+
+  $('#view').addEventListener('focusin', e => { if (e.target.classList && (e.target.classList.contains('num') || e.target.classList.contains('txt'))) { try { e.target.select(); } catch (x) {} } });
+  $('#view').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'ps-dist') { e.preventDefault(); addSlopRow(); } });
+  function clearSlope() { D.slope = defaultsSlope(); render(); save(); }
+  function clearRain() { D.rain = defaultsRain(); render(); save(); }
+  return { mountSlope: mountSlope, mountRain: mountRain, convert: convert, clearSlope: clearSlope, clearRain: clearRain };
+})();
 
 /* ---------- categories and tools (add new tools here) ----------
    A category holds a list of tools. To add a tool, add one object to that category's "tools" list:
@@ -537,10 +939,13 @@ const CATEGORIES = [
           { id: 'adv', label: 'Advanced', soon: 'Advanced duct calculations will be added here.' } ] } ] },
   { id: 'plumbing', label: 'Plumbing', color: '#12a4b8', icon: ICON.plumbing, min: 4, tools: [
       { id: 'pipe-sizer', label: 'Pipe Sizer', icon: ICON.pipe, actions: ACTIONS, soon: 'Pipe sizer is planned as the next calculator.' },
-      { id: 'pipe-slope', label: 'Pipe Slope', icon: ICON.slope, actions: ACTIONS, soon: 'Pipe slope calculator is planned.' },
-      { id: 'rw-calci', label: 'RW Calci', icon: ICON.rw, actions: ACTIONS, soon: 'Rain water calculator is planned.' } ] },
+      // DRSW.convert changes the units of both Pipe Slope and Rain Water Calci, so only one of them carries onUnits.
+      { id: 'pipe-slope', label: 'Pipe Slope', icon: ICON.slope, actions: ACTIONS, printTitle: 'Pipe slope',
+        mount: DRSW.mountSlope, onUnits: (from, to) => DRSW.convert(from, to), onClear: () => DRSW.clearSlope(), refresh: () => render() },
+      { id: 'rw-calci', label: 'Rain Water Calci', icon: ICON.rw, actions: ACTIONS, printTitle: 'Rain water',
+        mount: DRSW.mountRain, onClear: () => DRSW.clearRain(), refresh: () => render() } ] },
   { id: 'electrical', label: 'Electrical', color: '#f5a623', icon: ICON.electrical, min: 4, tools: [] },
-  { id: 'convertors', label: 'Convertors', color: '#8e6bff', icon: ICON.convertors, min: 4, tools: [] },
+  { id: 'convertors', label: 'Converters', color: '#8e6bff', icon: ICON.convertors, min: 4, tools: [] },
   { id: 'misc', label: 'Misc', color: '#2dbf8a', icon: ICON.misc, min: 4, tools: [] },
   { id: 'stddoc', label: 'Std. Doc.', color: '#ef6a5b', icon: ICON.stddoc, min: 4, tools: [] }
 ];
@@ -824,7 +1229,7 @@ function convertAll(from, to) {
 }
 $('#m-units').addEventListener('click', () => {
   const from = S.units, to = from === 'si' ? 'ip' : 'si', t = currentTool();
-  if (t && t.onUnits) t.onUnits(from, to);
+  CATEGORIES.forEach(c => c.tools.forEach(x => { if (x.onUnits) x.onUnits(from, to); }));   // keep every tool's saved values in step
   S.units = to; updateActions();
   if (t && t.refresh) t.refresh();
   save();
