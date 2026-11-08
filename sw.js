@@ -1,4 +1,4 @@
-const CACHE = 'meptools-v2026.11.09';
+const CACHE = 'meptools-v2026.11.07-2';
 const OFFLINE_PAGE = './';
 // The page is required; the other files are best-effort so a missing icon can never stop the install.
 const EXTRA_PRECACHE = [

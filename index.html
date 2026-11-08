@@ -18,19 +18,27 @@
 <style>
 :root{
   color-scheme:light dark;
-  --bg:#f3f6f8;--card:#ffffff;--ink:#12212b;--ink2:#5a6b78;--line:#d7e0e6;--accent:#0e7c86;--accent-ink:#ffffff;
-  --calc:#eaf1f5;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#0E2A3A;--head-ink:#ffffff;--chip:#e3ecf1;
+  --bg:#eef2ff;--page-bg:linear-gradient(180deg,#e9f0ff 0%,#f3efff 55%,#fdfdff 100%);
+  --card:#ffffff;--sheet:#ffffff;--shadow:0 2px 10px rgba(29,46,107,.10);
+  --ink:#12212b;--ink2:#56637d;--line:#d5def3;--accent:#0e7c86;--accent-ink:#ffffff;
+  --calc:#eef2fb;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#1d2e6b;--head-ink:#ffffff;--chip:#e4e9f8;--brand-ink:#1d2e6b;
 }
-/* System: follow the phone unless the user forced Light */
+/* System: follow the phone unless the user forced Light. Dark = the same gradient as the splash screen. */
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
-  --calc:#172a35;--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:#081820;--head-ink:#e8f0f4;--chip:#1a2c37;}
+  :root:not([data-theme="light"]){--bg:#05020a;--page-bg:radial-gradient(circle at 50% 30%,#1d2e6b 0%,#120d2b 50%,#05020a 100%);
+  --card:rgba(255,255,255,.06);--sheet:#171742;--shadow:none;
+  --ink:#e9eeff;--ink2:#a6b1d3;--line:rgba(255,255,255,.14);--accent:#2ec4b6;--accent-ink:#06222a;
+  --calc:rgba(255,255,255,.05);--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:rgba(6,4,22,.62);--head-ink:#e9eeff;--chip:rgba(255,255,255,.09);--brand-ink:#e0e0e0;}
 }
 :root[data-theme="light"]{color-scheme:light}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#0a1319;--card:#12202a;--ink:#e8f0f4;--ink2:#9db0bc;--line:#243642;--accent:#2ec4b6;--accent-ink:#06222a;
-  --calc:#172a35;--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:#081820;--head-ink:#e8f0f4;--chip:#1a2c37}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#05020a;--page-bg:radial-gradient(circle at 50% 30%,#1d2e6b 0%,#120d2b 50%,#05020a 100%);
+  --card:rgba(255,255,255,.06);--sheet:#171742;--shadow:none;
+  --ink:#e9eeff;--ink2:#a6b1d3;--line:rgba(255,255,255,.14);--accent:#2ec4b6;--accent-ink:#06222a;
+  --calc:rgba(255,255,255,.05);--red:#ff7b7b;--green:#62d68f;--blue:#8dbbff;--head:rgba(6,4,22,.62);--head-ink:#e9eeff;--chip:rgba(255,255,255,.09);--brand-ink:#e0e0e0}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px}
+html{background:var(--bg)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:var(--page-bg)}
+html,body{margin:0;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .wrap{max-width:540px;margin:0 auto;padding:0 12px 28px}
 header.top{background:var(--head);color:var(--head-ink);padding:10px 12px;margin:0 -12px 10px;display:flex;flex-direction:column;align-items:stretch;gap:8px}
@@ -75,7 +83,7 @@ input.num:focus{outline:2px solid var(--accent);outline-offset:0}
 footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size:12px;margin-top:6px}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:20}
 .overlay.open{display:flex}
-.sheet{background:var(--card);color:var(--ink);width:100%;max-width:540px;border-radius:16px 16px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:85vh;overflow:auto}
+.sheet{background:var(--sheet);color:var(--ink);width:100%;max-width:540px;border-radius:16px 16px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:85vh;overflow:auto}
 .sheet h2{margin:0 0 8px;font-size:18px}
 .sheet p,.sheet li{font-size:14px;line-height:1.45;color:var(--ink)}
 .sheet ul{padding-left:20px;margin:6px 0}
@@ -100,6 +108,11 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .crumb{font-size:13px;color:var(--ink2);margin:0 2px 8px;font-weight:600}
 .crumb:empty{display:none}
+.brand{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 12px}
+.brand-logo{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 14px rgba(0,191,255,.55)}
+.brand-sign{font-family:'Great Vibes',cursive;font-size:1.95rem;line-height:1.1;color:var(--brand-ink);display:inline-block;white-space:nowrap;transform:rotate(-4deg)}
+.brand.wait .brand-logo,.brand.wait .brand-sign{visibility:hidden}
+.tile,.box{box-shadow:var(--shadow)}
 .pagehead{margin:2px 2px 12px}
 .pagehead h2{margin:0;font-size:22px}
 .pagehead p{margin:2px 0 0;color:var(--ink2);font-size:13.5px}
@@ -123,6 +136,7 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 @media print{
   header.top,nav.tabs,.status,.hint,footer.ft,.overlay{display:none!important}
   html,body{background:#fff;color:#000}
+  body::before,.brand{display:none!important}
   .card{border:1px solid #999;break-inside:avoid}
   .printhead{display:block;margin:0 0 8px}
   .printhead h1{font-size:18px;margin:0}.printhead p{margin:2px 0;font-size:12px}
@@ -136,7 +150,7 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(./fonts/inter-latin-500-normal.woff2) format('woff2')}
 @font-face{font-family:'Great Vibes';font-style:normal;font-weight:400;font-display:swap;src:url(./fonts/great-vibes-latin-400-normal.woff2) format('woff2')}
 #splash{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;overflow:hidden;color:#fff;
-  font-family:'Outfit',system-ui,sans-serif;opacity:1;transition:opacity .45s ease;
+  font-family:'Outfit',system-ui,sans-serif;opacity:1;transition:opacity .6s ease;
   background:radial-gradient(circle at 50% 30%,#1d2e6b 0%,#120d2b 50%,#05020a 100%);
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 #splash.sp-out{opacity:0;pointer-events:none}
@@ -220,7 +234,8 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
   </div>
 </div>
 <script>
-// Splash: shows for about 3 s (1.5 s if the phone asks for reduced motion), tap to skip. It can never block the app.
+// Splash: about 2.6 s, then the logo shrinks to the top-left corner and the signature travels to the top-right corner
+// (they become the home-page header). Tap to skip (quick version). No animation if the phone asks for reduced motion.
 (function () {
   try {
     var sp = document.getElementById('splash'); if (!sp) return;
@@ -228,13 +243,46 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
     var dots = Array.prototype.slice.call(sp.querySelectorAll('.sp-dots span')), i = 0, done = false;
     function tick() { dots.forEach(function (d) { d.classList.remove('on'); }); if (dots[i]) dots[i].classList.add('on'); i = (i + 1) % dots.length; }
     tick(); var iv = setInterval(tick, 200);
-    function close() { if (done) return; done = true; clearInterval(iv); sp.classList.add('sp-out'); setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); }, 500); }
-    sp.addEventListener('click', close);
-    setTimeout(close, reduce ? 1500 : 3000);
+    function drop(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+    function fly(dur) {
+      var brand = document.getElementById('brand'), bl = document.getElementById('brand-logo'), bs = document.getElementById('brand-sign');
+      var sl = sp.querySelector('.sp-logo'), ss = sp.querySelector('.sp-sign');
+      if (reduce || !brand || brand.hidden || !bl || !bs || !sl || !ss || !sl.animate) return false;
+      var rl = sl.getBoundingClientRect(), tl = bl.getBoundingClientRect(), rs = ss.getBoundingClientRect(), ts = bs.getBoundingClientRect();
+      if (!rl.width || !tl.width || !ts.width || !ss.offsetWidth || !bs.offsetWidth) return false;
+      var cs = getComputedStyle(ss), tc = getComputedStyle(bs), ease = 'cubic-bezier(.22,.8,.24,1)';
+      var lcx = rl.left + rl.width / 2, lcy = rl.top + rl.height / 2, scx = rs.left + rs.width / 2, scy = rs.top + rs.height / 2;
+      var sow = ss.offsetWidth, soh = ss.offsetHeight;
+      var logo = document.createElement('img'); logo.src = sl.currentSrc || sl.src; logo.alt = '';
+      logo.style.cssText = 'position:fixed;z-index:1100;margin:0;border-radius:50%;object-fit:cover;pointer-events:none;box-shadow:0 0 30px rgba(0,191,255,.6);left:' + rl.left + 'px;top:' + rl.top + 'px;width:' + rl.width + 'px;height:' + rl.height + 'px';
+      var sign = document.createElement('div');
+      sign.style.cssText = 'position:fixed;z-index:1100;margin:0;pointer-events:none;white-space:nowrap;text-align:center;left:' + (scx - sow / 2) + 'px;top:' + (scy - soh / 2) + 'px;width:' + sow + 'px;height:' + soh + 'px;font-family:' + cs.fontFamily + ';font-size:' + cs.fontSize + ';line-height:' + cs.lineHeight + ';color:' + cs.color;
+      var inner = document.createElement('div'); inner.textContent = ss.textContent; inner.style.cssText = 'transform:rotate(-4deg);width:100%;height:100%'; sign.appendChild(inner);
+      var a1 = [{ transform: 'translate(0px,0px) scale(1)' }, { transform: 'translate(' + (tl.left + tl.width / 2 - lcx) + 'px,' + (tl.top + tl.height / 2 - lcy) + 'px) scale(' + (tl.width / rl.width) + ')' }];
+      var a2 = [{ transform: 'translate(0px,0px) scale(1)', color: cs.color }, { transform: 'translate(' + (ts.left + ts.width / 2 - scx) + 'px,' + (ts.top + ts.height / 2 - scy) + 'px) scale(' + (bs.offsetWidth / sow) + ')', color: tc.color }];
+      // everything is measured; from here on the page is changed
+      document.body.appendChild(logo); document.body.appendChild(sign);
+      sl.style.visibility = 'hidden'; ss.style.visibility = 'hidden'; brand.classList.add('wait');
+      logo.animate(a1, { duration: dur, easing: ease, fill: 'forwards' });
+      sign.animate(a2, { duration: dur, easing: ease, fill: 'forwards' });
+      setTimeout(function () { drop(logo); drop(sign); brand.classList.remove('wait'); }, dur + 60);
+      return true;
+    }
+    function close(quick) {
+      if (done) return; done = true; clearInterval(iv);
+      try { fly(quick ? 420 : 900); } catch (e) { var br = document.getElementById('brand'); if (br) br.classList.remove('wait'); }
+      sp.classList.add('sp-out'); setTimeout(function () { drop(sp); }, 650);
+    }
+    sp.addEventListener('click', function () { close(true); });
+    setTimeout(function () { close(false); }, reduce ? 1500 : 2600);
   } catch (e) { var el = document.getElementById('splash'); if (el && el.parentNode) el.parentNode.removeChild(el); }
 })();
 </script>
 <div class="wrap">
+  <div class="brand" id="brand" hidden>
+    <img id="brand-logo" class="brand-logo" src="./sscr.png" alt="Kadir-ekhasti">
+    <span id="brand-sign" class="brand-sign">Kadir-ekhasti</span>
+  </div>
   <header class="top">
     <div class="hrow">
       <button id="m-back" class="back" type="button" aria-label="Back" title="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -422,7 +470,7 @@ const UN = {
 };
 const FIELDS = ['flow', 'hf', 'v', 'd'];
 const LABEL = { flow: 'Flow rate', hf: 'Head loss', v: 'Velocity', d: 'Equivalent diameter' };
-const VERSION = 'v2026.11.09';
+const VERSION = 'v2026.11.07';
 
 /* ---------- state ---------- */
 const STORE_KEY = 'mepsizer.v1';
@@ -535,6 +583,7 @@ function renderModes() {
 function render() {
   const view = $('#view'), crumb = $('#crumb'), cat = findCat(NAV.cat), tool = currentTool();
   $('#m-back').hidden = !cat;
+  $('#brand').hidden = !!cat;                      // logo + signature only on the home page
   if (!cat) { crumb.textContent = ''; view.innerHTML = homeHTML(); }
   else if (!tool) { crumb.textContent = ''; view.innerHTML = categoryHTML(cat); }
   else {
@@ -786,7 +835,7 @@ function applyTheme() {
   const r = document.documentElement;
   if (S.theme === 'light' || S.theme === 'dark') r.setAttribute('data-theme', S.theme); else r.removeAttribute('data-theme');
   const dark = S.theme === 'dark' || (S.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', dark ? '#081820' : '#0E2A3A');
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', dark ? '#120d2b' : '#e9f0ff');
   $$('[data-theme-opt]').forEach(b => b.classList.toggle('on', b.dataset.themeOpt === S.theme));
 }
 $('#m-settings').addEventListener('click', () => { $('#settings').classList.add('open'); });
