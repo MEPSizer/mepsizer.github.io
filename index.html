@@ -18,10 +18,10 @@
 <style>
 :root{
   color-scheme:light dark;
-  --bg:#eef2ff;--page-bg:linear-gradient(180deg,#e9f0ff 0%,#f3efff 55%,#fdfdff 100%);
-  --card:#ffffff;--sheet:#ffffff;--shadow:0 2px 10px rgba(29,46,107,.10);
-  --ink:#12212b;--ink2:#56637d;--line:#d5def3;--accent:#0e7c86;--accent-ink:#ffffff;
-  --calc:#eef2fb;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#1d2e6b;--head-ink:#ffffff;--chip:#e4e9f8;--brand-ink:#1d2e6b;
+  --bg:#cdd9f3;--page-bg:linear-gradient(180deg,#cdd9f3 0%,#d9d3f0 55%,#e6e4f2 100%);
+  --card:#ffffff;--sheet:#ffffff;--shadow:0 2px 10px rgba(29,46,107,.18);
+  --ink:#12212b;--ink2:#56637d;--line:#bfcbe6;--accent:#0e7c86;--accent-ink:#ffffff;
+  --calc:#dfe6f6;--red:#c62828;--green:#1b7a3a;--blue:#1352b0;--head:#1d2e6b;--head-ink:#ffffff;--chip:#d5def3;--brand-ink:#1d2e6b;
 }
 /* System: follow the phone unless the user forced Light. Dark = the same gradient as the splash screen. */
 @media (prefers-color-scheme: dark){
@@ -112,6 +112,10 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .brand-logo{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 14px rgba(0,191,255,.55)}
 .brand-sign{font-family:'Great Vibes',cursive;font-size:1.95rem;line-height:1.1;color:var(--brand-ink);display:inline-block;white-space:nowrap;transform:rotate(-4deg)}
 .brand.wait .brand-logo,.brand.wait .brand-sign{visibility:hidden}
+.brand{cursor:pointer}
+.brand.compact{padding:6px 2px 8px}
+.brand.compact .brand-logo{width:36px;height:36px}
+.brand.compact .brand-sign{font-size:1.55rem}
 .tile,.box{box-shadow:var(--shadow)}
 .pagehead{margin:2px 2px 12px}
 .pagehead h2{margin:0;font-size:22px}
@@ -312,14 +316,14 @@ table.auth-table .shape-ci{display:inline-block;width:10px;height:10px;backgroun
 })();
 </script>
 <div class="wrap">
-  <div class="brand" id="brand" hidden>
+  <div class="brand" id="brand" role="button" tabindex="0" aria-label="Go to home page">
     <img id="brand-logo" class="brand-logo" src="./sscr.png" alt="Kadir-ekhasti">
     <span id="brand-sign" class="brand-sign">Kadir-ekhasti</span>
   </div>
   <header class="top">
     <div class="hrow">
       <button id="m-back" class="back" type="button" aria-label="Back" title="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <h1>MEPtools</h1>
+      <h1 id="page-title">Home</h1>
       <div class="hbtns">
         <button id="m-about" type="button">About</button>
         <button id="m-settings" class="ico" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
@@ -988,7 +992,7 @@ function renderModes() {
 function render() {
   const view = $('#view'), crumb = $('#crumb'), cat = findCat(NAV.cat), tool = currentTool();
   $('#m-back').hidden = !cat;
-  $('#brand').hidden = !!cat;                      // logo + signature only on the home page
+  $('#brand').classList.toggle('compact', !!cat);   // logo + signature on every page; smaller on inner pages
   if (!cat) { crumb.textContent = ''; view.innerHTML = homeHTML(); }
   else if (!tool) { crumb.textContent = ''; view.innerHTML = categoryHTML(cat); }
   else {
@@ -997,6 +1001,7 @@ function render() {
     if (mode.mount) mode.mount(view);
     else view.innerHTML = '<div class="card soon-card"><h2>' + tool.label + (tool.modes ? ' · ' + mode.label : '') + '</h2><p>Coming soon.</p><p>' + (mode.soon || '') + '</p></div>';
   }
+  $('#page-title').textContent = !cat ? 'Home' : (tool ? tool.label : cat.label);
   renderModes(); updateActions(); renderPrintHead();
 }
 function go(cat, tool, push) {
@@ -1020,6 +1025,9 @@ $('#m-back').addEventListener('click', () => {
   if (NAV.tool) { go(NAV.cat, null, false); try { history.back(); } catch (e) {} return; }
   go(null, null, false); try { history.back(); } catch (e) {}
 });
+function goHome() { if (NAV.cat) go(null, null); }
+$('#brand').addEventListener('click', goHome);
+$('#brand').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goHome(); } });
 $('#modes').addEventListener('click', e => {
   const b = e.target.closest('[data-mode]'); if (!b) return;
   S.mode = b.dataset.mode; render(); save();
@@ -1240,7 +1248,7 @@ function applyTheme() {
   const r = document.documentElement;
   if (S.theme === 'light' || S.theme === 'dark') r.setAttribute('data-theme', S.theme); else r.removeAttribute('data-theme');
   const dark = S.theme === 'dark' || (S.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', dark ? '#120d2b' : '#e9f0ff');
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', dark ? '#120d2b' : '#cdd9f3');
   $$('[data-theme-opt]').forEach(b => b.classList.toggle('on', b.dataset.themeOpt === S.theme));
 }
 $('#m-settings').addEventListener('click', () => { $('#settings').classList.add('open'); });
