@@ -106,7 +106,11 @@ footer.ft{display:flex;justify-content:space-between;color:var(--ink2);font-size
 .hbtns button.ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .back{flex:0 0 auto;background:rgba(255,255,255,.12);color:var(--head-ink);border:0;border-radius:8px;padding:7px 9px;cursor:pointer;display:inline-flex;align-items:center}
 .back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.crumb{font-size:13px;color:var(--ink2);margin:0 2px 8px;font-weight:600}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;margin:0 -6px 6px;font-size:15px}
+.crumb .cl{background:none;border:0;color:var(--accent);font:inherit;font-weight:700;min-height:44px;padding:0 10px;cursor:pointer;display:inline-flex;align-items:center;border-radius:10px}
+.crumb .cl:active{background:var(--chip)}
+.crumb .cur{font-weight:700;color:var(--ink);padding:0 10px;min-height:44px;display:inline-flex;align-items:center}
+.crumb .sep{color:var(--ink2);font-weight:700}
 .crumb:empty{display:none}
 .brand{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 12px}
 .brand-logo{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 14px rgba(0,191,255,.55)}
@@ -168,15 +172,70 @@ table.auth-table td:first-child{text-align:center;padding-left:4px}
 table.auth-table .val{display:flex;align-items:center;gap:4px}
 table.auth-table .shape-sq{display:inline-block;width:10px;height:10px;background:var(--blue);border-radius:1px;flex-shrink:0}
 table.auth-table .shape-ci{display:inline-block;width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0}
+
+/* ---------- Pipe Sizer ---------- */
+.tool-pz .card h2{font-size:13px;font-weight:700;margin:0 0 10px;color:var(--ink2);text-transform:uppercase;letter-spacing:.4px}
+.tool-pz .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:400px){.tool-pz .grid2{grid-template-columns:1fr}}
+.tool-pz label.fld{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2);font-weight:500}
+.tool-pz select,.tool-pz input[type=number]{width:100%;padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:15px;outline:none;-webkit-appearance:none;appearance:none}
+.tool-pz select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237b88a8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.tool-pz select:focus,.tool-pz input:focus{outline:2px solid var(--accent);outline-offset:0}
+.tool-pz .results{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:440px){.tool-pz .results{grid-template-columns:1fr}}
+.tool-pz .rescol h3{font-size:12.5px;font-weight:700;margin:0 0 8px;color:var(--accent);text-transform:uppercase;letter-spacing:.3px}
+.tool-pz .res .rl{font-size:14px}
+.tool-pz .res .rl span:first-child{color:var(--ink2)}
+.tool-pz .res .rl b{font-size:inherit;font-weight:600;color:var(--ink);text-align:right}
+.tool-pz .res .rl b.blue{color:var(--blue)}
+.tool-pz .res .rl.big b{font-size:16px}
+.tool-pz .hint{font-size:12px;color:var(--ink2);margin:8px 0 0;line-height:1.4}
+/* ---------- Chilled Water Calci ---------- */
+.tool-chw .card,.tool-chw .result-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 12px;box-shadow:var(--shadow)}
+.tool-chw .card h2,.tool-chw .result-card h2{margin:0 0 12px;font-size:15px;font-weight:700;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase}
+.tool-chw .row{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:10px;align-items:center;margin:8px 0}
+.tool-chw .row label{font-weight:600;font-size:15px;color:var(--ink)}
+.tool-chw .row input{width:100%;font:inherit;font-weight:600;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-align:right}
+.tool-chw .row input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.tool-chw .unit{font-size:13px;color:var(--ink2);font-weight:500;text-align:right;padding-right:2px}
+.hl-group{display:flex;gap:8px;margin:10px 0 4px}
+.hl-group button{flex:1;padding:10px 0;border-radius:10px;border:1px solid var(--line);background:var(--chip);color:var(--ink);font-weight:700;font-size:15px;cursor:pointer}
+.hl-group button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pipe-main{background:var(--calc);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.pipe-main .lbl{font-size:12px;font-weight:700;color:var(--ink2);letter-spacing:.4px;text-transform:uppercase}
+.pipe-main .size{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-.5px;margin:4px 0 2px}
+.pipe-main .sub{font-size:13.5px;color:var(--ink2)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res-item{background:var(--calc);border-radius:10px;padding:10px 12px}
+.res-item .lbl{font-size:11.5px;font-weight:700;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase}
+.res-item .val{font-size:17px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.res-item .val small{font-size:12px;font-weight:600;color:var(--ink2)}
+.res-item input.edit{width:100%;font:inherit;font-weight:700;font-size:17px;padding:4px 6px;margin-top:2px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-align:right}
+.res-item input.edit:focus{outline:2px solid var(--accent);outline-offset:1px}
+.res-item .edit-unit{font-size:12px;color:var(--ink2);font-weight:600;text-align:right;margin-top:1px}
+.chw-status{margin-top:12px;font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px}
+.chw-status.ok{background:rgba(27,122,58,.12);color:var(--green)}
+.chw-status.warn{background:rgba(198,40,40,.12);color:var(--red)}
+.chw-status.empty{background:var(--chip);color:var(--ink2)}
+.chw-status.manual{background:rgba(19,82,176,.12);color:var(--blue)}
+.ref-btn{display:block;width:100%;margin-top:4px;padding:12px;border-radius:10px;border:1px dashed var(--line);background:transparent;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;text-align:center}
+.ref-btn:active{background:var(--chip)}
+.tool-chw .note{font-size:12.5px;color:var(--ink2);margin-top:10px;line-height:1.4}
+.reftable{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.reftable th,.reftable td{padding:7px 6px;text-align:right;border-bottom:1px solid var(--line)}
+.reftable th{font-size:11.5px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;background:var(--sheet)}
+.reftable th:first-child,.reftable td:first-child{text-align:left}
+.reftable tr:last-child td{border-bottom:0}
+.reftable .hl-head{background:var(--calc)}
 .printhead{display:none}
 @media print{
-  header.top,nav.tabs,.status,.hint,footer.ft,.overlay,.btnrow,td.del,.authority-card{display:none!important}
+  header.top,nav.tabs,.status,.hint,footer.ft,.overlay,.btnrow,td.del,.authority-card,.ref-btn,.tool-chw .note,.crumb{display:none!important}
   html,body{background:#fff;color:#000}
   body::before,.brand{display:none!important}
   .card{border:1px solid #999;break-inside:avoid}
   .printhead{display:block;margin:0 0 8px}
   .printhead h1{font-size:18px;margin:0}.printhead p{margin:2px 0;font-size:12px}
-  input.num,input.txt,#view .row select{border:0;background:none;color:#000;text-align:left}
+  input.num,input.txt,#view .row select,.tool-pz select,.tool-pz input[type=number],.tool-chw input{border:0;background:none;color:#000;text-align:left}
   table.auth-table .shape-sq,table.auth-table .shape-ci{border:1px solid #000;background:#000}
   :root{--ink2:#333;--blue:#000;--green:#000;--red:#000}
 }
@@ -355,6 +414,21 @@ table.auth-table .shape-ci{display:inline-block;width:10px;height:10px;backgroun
   </div>
 </div>
 
+<div class="overlay" id="chw-ref" role="dialog" aria-modal="true" aria-label="Pipe Capacity Reference">
+  <div class="sheet">
+    <h2>Pipe Capacity Reference</h2>
+    <p style="margin:0 0 8px;font-size:13.5px;color:var(--ink2)">Schedule 40 steel · Max flow at given head loss (ft/100ft)</p>
+    <div style="overflow-x:auto">
+      <table class="reftable">
+        <thead><tr><th>Size</th><th>MM</th><th class="hl-head">@ 3</th><th class="hl-head">@ 4</th><th class="hl-head">@ 5</th></tr></thead>
+        <tbody id="chw-refBody"></tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--ink2);margin:10px 0 0">Values in USGPM.</p>
+    <button type="button" id="chw-ref-close">Close</button>
+  </div>
+</div>
+
 <div class="overlay" id="about" role="dialog" aria-modal="true" aria-label="About">
   <div class="sheet">
     <h2>About MEPtools</h2>
@@ -363,6 +437,8 @@ table.auth-table .shape-ci{display:inline-block;width:10px;height:10px;backgroun
       <li><b>Equal-friction / velocity sizing:</b> enter any two of flow rate, head loss, velocity and equivalent diameter.</li>
       <li><b>Method:</b> Darcy-Weisbach with Colebrook-White friction factor; target head loss is solved with the Swamee-Jain explicit form, then the result is checked with Colebrook-White. Roughness 0.0007 ft (0.213 mm).</li>
       <li><b>Rectangular ducts:</b> converted to the equivalent round duct for the same friction and airflow (Huebscher, as in ASHRAE).</li>
+      <li><b>Pipe Sizer:</b> pick the material, size, fluid and flow to get the pipe properties and the friction head loss (Darcy-Weisbach with Colebrook / Swamee-Jain). Pipe data: ASME B36.10 (steel), ASTM B88 (copper), ASTM D1785 (PVC/ABS).</li>
+      <li><b>Chilled Water Calci:</b> sizes Schedule 40 steel pipe by design head loss (3, 4 or 5 ft per 100 ft) or by velocity, using the equal-friction method (ASHRAE practice). Velocity and head loss can be edited.</li>
       <li><b>Pipe Slope:</b> enter the start IL and the distance from the previous point; each new point only needs its distance. Slope ratio (default 1:120) and direction (Up to Down / Down to Up) apply to the whole table.</li>
       <li><b>Rain Water Calci:</b> Q uses the correct Metric or IP formula; RWO is based on 272 m² (approximately 2,927.78 ft²) per outlet as a planning reference.</li>
       <li><b>Air:</b> standard air and four humid-air conditions (Metric and IP each have their own list).</li>
@@ -910,6 +986,503 @@ function convert(from, to) {
   return { mountSlope: mountSlope, mountRain: mountRain, convert: convert, clearSlope: clearSlope, clearRain: clearRain };
 })();
 
+
+/* ---------- Pipe Sizer (from the Pipe Sizer app; state is kept in S.pipe, units follow the whole app) ---------- */
+const PIPE = (function () {
+  const defaults = () => ({ material: 'sch40-steel', size: '1/2', fluid: 'w50', flow: S.units === 'ip' ? 1.4 : 0.088 });
+  const P = S.pipe = defaults();
+  const STEEL_SCH40 = {
+    '1/8':{od:0.405,wall:0.068}, '1/4':{od:0.540,wall:0.088}, '3/8':{od:0.675,wall:0.091},
+    '1/2':{od:0.840,wall:0.109}, '3/4':{od:1.050,wall:0.113}, '1':{od:1.315,wall:0.133},
+    '1-1/4':{od:1.660,wall:0.140}, '1-1/2':{od:1.900,wall:0.145}, '2':{od:2.375,wall:0.154},
+    '2-1/2':{od:2.875,wall:0.203}, '3':{od:3.500,wall:0.216}, '3-1/2':{od:4.000,wall:0.226},
+    '4':{od:4.500,wall:0.237}, '5':{od:5.563,wall:0.258}, '6':{od:6.625,wall:0.280},
+    '8':{od:8.625,wall:0.322}, '10':{od:10.750,wall:0.365}, '12':{od:12.750,wall:0.406},
+    '14':{od:14.000,wall:0.438}, '16':{od:16.000,wall:0.500}, '18':{od:18.000,wall:0.562},
+    '20':{od:20.000,wall:0.594}, '24':{od:24.000,wall:0.688}, '30':{od:30.000,wall:0.688},
+    '36':{od:36.000,wall:0.750}, '40':{od:40.000,wall:0.750}
+  };
+  const STEEL_SCH80 = {
+    '1/8':{od:0.405,wall:0.095}, '1/4':{od:0.540,wall:0.119}, '3/8':{od:0.675,wall:0.126},
+    '1/2':{od:0.840,wall:0.147}, '3/4':{od:1.050,wall:0.154}, '1':{od:1.315,wall:0.179},
+    '1-1/4':{od:1.660,wall:0.191}, '1-1/2':{od:1.900,wall:0.200}, '2':{od:2.375,wall:0.218},
+    '2-1/2':{od:2.875,wall:0.276}, '3':{od:3.500,wall:0.300}, '3-1/2':{od:4.000,wall:0.318},
+    '4':{od:4.500,wall:0.337}, '5':{od:5.563,wall:0.375}, '6':{od:6.625,wall:0.432},
+    '8':{od:8.625,wall:0.500}, '10':{od:10.750,wall:0.594}, '12':{od:12.750,wall:0.688},
+    '14':{od:14.000,wall:0.750}, '16':{od:16.000,wall:0.844}, '18':{od:18.000,wall:0.938},
+    '20':{od:20.000,wall:1.031}, '24':{od:24.000,wall:1.219}
+  };
+  const STEEL_SCH5 = {
+    '1/2':{od:0.840,wall:0.065}, '3/4':{od:1.050,wall:0.065}, '1':{od:1.315,wall:0.065},
+    '1-1/4':{od:1.660,wall:0.065}, '1-1/2':{od:1.900,wall:0.065}, '2':{od:2.375,wall:0.065},
+    '2-1/2':{od:2.875,wall:0.083}, '3':{od:3.500,wall:0.083}, '4':{od:4.500,wall:0.083},
+    '6':{od:6.625,wall:0.109}, '8':{od:8.625,wall:0.109}, '10':{od:10.750,wall:0.134},
+    '12':{od:12.750,wall:0.156}, '14':{od:14.000,wall:0.156}, '16':{od:16.000,wall:0.165},
+    '18':{od:18.000,wall:0.165}, '20':{od:20.000,wall:0.188}, '24':{od:24.000,wall:0.218}
+  };
+  const STEEL_SCH10 = {
+    '1/2':{od:0.840,wall:0.083}, '3/4':{od:1.050,wall:0.083}, '1':{od:1.315,wall:0.109},
+    '1-1/4':{od:1.660,wall:0.109}, '1-1/2':{od:1.900,wall:0.109}, '2':{od:2.375,wall:0.109},
+    '2-1/2':{od:2.875,wall:0.120}, '3':{od:3.500,wall:0.120}, '4':{od:4.500,wall:0.120},
+    '6':{od:6.625,wall:0.134}, '8':{od:8.625,wall:0.148}, '10':{od:10.750,wall:0.165},
+    '12':{od:12.750,wall:0.180}, '14':{od:14.000,wall:0.250}, '16':{od:16.000,wall:0.250},
+    '18':{od:18.000,wall:0.250}, '20':{od:20.000,wall:0.250}, '24':{od:24.000,wall:0.250}
+  };
+  const COPPER_OD = {
+    '1/4':0.375,'3/8':0.500,'1/2':0.625,'5/8':0.750,'3/4':0.875,'1':1.125,
+    '1-1/4':1.375,'1-1/2':1.625,'2':2.125,'2-1/2':2.625,'3':3.125,'3-1/2':3.625,
+    '4':4.125,'5':5.125,'6':6.125,'8':8.125,'10':10.125,'12':12.125
+  };
+  const COPPER_WALL = {
+    K:{'1/4':0.035,'3/8':0.049,'1/2':0.049,'5/8':0.049,'3/4':0.065,'1':0.065,
+       '1-1/4':0.065,'1-1/2':0.072,'2':0.083,'2-1/2':0.095,'3':0.109,'3-1/2':0.120,
+       '4':0.134,'5':0.160,'6':0.192,'8':0.271,'10':0.338,'12':0.405},
+    L:{'1/4':0.030,'3/8':0.035,'1/2':0.040,'5/8':0.042,'3/4':0.045,'1':0.050,
+       '1-1/4':0.055,'1-1/2':0.060,'2':0.070,'2-1/2':0.080,'3':0.090,'3-1/2':0.100,
+       '4':0.110,'5':0.125,'6':0.140,'8':0.200,'10':0.250,'12':0.280},
+    M:{'3/8':0.025,'1/2':0.028,'3/4':0.032,'1':0.035,'1-1/4':0.042,'1-1/2':0.049,
+       '2':0.058,'2-1/2':0.065,'3':0.072,'3-1/2':0.083,'4':0.095,'5':0.109,
+       '6':0.122,'8':0.170,'10':0.212,'12':0.254}
+  };
+  const PVC_SCH40 = STEEL_SCH40;
+  const PVC_SCH80 = STEEL_SCH80;
+  
+  const PMATERIALS = [
+    { id:'sch5-steel',  label:'Sch 5 Steel',       data:STEEL_SCH5,  density:490,  roughness:0.00015 },
+    { id:'sch10-steel', label:'Sch 10 Steel',      data:STEEL_SCH10, density:490,  roughness:0.00015 },
+    { id:'sch40-steel', label:'Sch 40 Steel',      data:STEEL_SCH40, density:490,  roughness:0.00015 },
+    { id:'sch80-steel', label:'Sch 80 Steel',      data:STEEL_SCH80, density:490,  roughness:0.00015 },
+    { id:'sch40-abs',   label:'Sch 40 ABS Plastic', data:PVC_SCH40, density:65,   roughness:0.000005 },
+    { id:'sch80-abs',   label:'Sch 80 ABS Plastic', data:PVC_SCH80, density:65,   roughness:0.000005 },
+    { id:'sch40-pvc',   label:'Sch 40 PVC Plastic', data:PVC_SCH40, density:90,   roughness:0.000005 },
+    { id:'sch80-pvc',   label:'Sch 80 PVC Plastic', data:PVC_SCH80, density:90,   roughness:0.000005 },
+    { id:'type-k',      label:'Type K Copper',     copper:'K', density:555, roughness:0.000005 },
+    { id:'type-l',      label:'Type L Copper',     copper:'L', density:555, roughness:0.000005 },
+    { id:'type-m',      label:'Type M Copper',     copper:'M', density:555, roughness:0.000005 }
+  ];
+  
+  const PFLUIDS = [
+    { id:'air', label:'Air', rho:0.075, mu:0.0432, cp:0.24 },
+    { id:'w40', label:'40°F Water', rho:62.42, mu:3.75, cp:1.004 },
+    { id:'w50', label:'50°F Water', rho:62.41, mu:3.17, cp:1.002 },
+    { id:'w60', label:'60°F Water', rho:62.37, mu:2.71, cp:1.000 },
+    { id:'w70', label:'70°F Water', rho:62.30, mu:2.35, cp:0.999 },
+    { id:'w80', label:'80°F Water', rho:62.22, mu:2.08, cp:0.998 },
+    { id:'w100',label:'100°F Water',rho:62.00, mu:1.65, cp:0.998 },
+    { id:'w120',label:'120°F Water',rho:61.71, mu:1.36, cp:0.999 },
+    { id:'w140',label:'140°F Water',rho:61.38, mu:1.14, cp:1.000 },
+    { id:'w160',label:'160°F Water',rho:61.00, mu:0.97, cp:1.001 },
+    { id:'w170',label:'170°F Water',rho:60.80, mu:0.90, cp:1.002 },
+    { id:'w180',label:'180°F Water',rho:60.58, mu:0.84, cp:1.003 },
+    { id:'w190',label:'190°F Water',rho:60.36, mu:0.79, cp:1.004 },
+    { id:'w200',label:'200°F Water',rho:60.13, mu:0.74, cp:1.005 },
+    { id:'eg30', label:'30% Ethylene glycol', rho:65.2, mu:5.5, cp:0.90 },
+    { id:'eg40', label:'40% Ethylene glycol', rho:66.8, mu:7.8, cp:0.85 },
+    { id:'eg50', label:'50% Ethylene glycol', rho:68.5, mu:11.5, cp:0.80 },
+    { id:'pg30', label:'30% Propylene glycol', rho:64.0, mu:6.2, cp:0.92 },
+    { id:'pg40', label:'40% Propylene glycol', rho:65.2, mu:9.5, cp:0.88 },
+    { id:'pg50', label:'50% Propylene glycol', rho:66.5, mu:14.0, cp:0.84 }
+  ];
+  
+  
+  (function loadSaved() {
+    try {
+      const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); const x = r && r.pipe; if (!x) return;
+      if (PMATERIALS.some(m => m.id === x.material)) P.material = x.material;
+      if (typeof x.size === 'string') P.size = x.size;
+      if (PFLUIDS.some(f => f.id === x.fluid)) P.fluid = x.fluid;
+      if (typeof x.flow === 'number' && isFinite(x.flow) && x.flow >= 0) P.flow = x.flow;
+    } catch (e) {}
+  })();
+  const G=32.174;
+  function swameeJain(Re,rel){ if(Re<2300) return 64/Math.max(Re,1); const a=Math.log10(rel/3.7+5.74/Math.pow(Re,0.9)); return 0.25/(a*a); }
+  function colebrook(Re,rel,fGuess){ if(Re<2300) return 64/Math.max(Re,1); let f=fGuess||0.02; for(let i=0;i<20;i++){ const inv=-2*Math.log10(rel/3.7+2.51/(Re*Math.sqrt(f))); const fn=1/(inv*inv); if(Math.abs(fn-f)<1e-8) return fn; f=fn; } return f; }
+  
+  function getPipeDims(matId,size){
+    const mat=PMATERIALS.find(m=>m.id===matId); if(!mat) return null;
+    if(mat.copper){ const od=COPPER_OD[size], wall=COPPER_WALL[mat.copper][size]; if(od==null||wall==null) return null;
+      return {od,wall,id:od-2*wall,density:mat.density,roughness:mat.roughness}; }
+    const d=mat.data[size]; if(!d) return null;
+    return {od:d.od,wall:d.wall,id:d.od-2*d.wall,density:mat.density,roughness:mat.roughness};
+  }
+  
+  function calc(){
+    const dims=getPipeDims(P.material,P.size); const fl=PFLUIDS.find(f=>f.id===P.fluid);
+    if(!dims||!fl||!(P.flow>0)) return null;
+    const ID=dims.id, area=Math.PI*ID*ID/4, area_ft2=area/144;
+    let Q_cfs = S.units==='ip' ? P.flow/448.831 : P.flow*0.0353147;
+    const V=Q_cfs/area_ft2;
+    const rho=fl.rho, mu_s=fl.mu/3600, Re=rho*V*(ID/12)/mu_s;
+    const rel=dims.roughness/(ID/12);
+    let f=swameeJain(Re,rel); f=colebrook(Re,rel,f);
+    const hf100=f*(100/(ID/12))*(V*V)/(2*G);
+    const elbow=0.9*(V*V)/(2*G);
+    const ri=ID/2, ro=dims.od/2;
+    const I=(Math.PI/4)*(Math.pow(ro,4)-Math.pow(ri,4));
+    const Z=I/ro, rGyr=Math.sqrt(I/(Math.PI*(ro*ro-ri*ri)));
+    const metalArea=Math.PI*(ro*ro-ri*ri), dens_in3=dims.density/1728;
+    const wtPipe=metalArea*dens_in3*12, wtFluid=area_ft2*rho, wtTotal=wtPipe+wtFluid;
+    const energyFactor=500*(rho/62.4)*fl.cp;
+    return {od:dims.od,wall:dims.wall,id:ID,area,cross:metalArea,Z,I,rGyr,wtPipe,wtTotal,rho,mu:fl.mu,cp:fl.cp,energyFactor,V,Re,f,hf100,elbow};
+  }
+  
+  function fmt(n,d){ if(n==null||!isFinite(n)) return '—'; return Number(n.toPrecision(d||5)).toString(); }
+  
+  function renderProps(r){
+    const ip=S.units==='ip';
+    const pipeEl=$('#pz-pipeProps'), hydEl=$('#pz-hydProps');
+    if(!r){ pipeEl.innerHTML=hydEl.innerHTML='<div class="rl"><span>—</span><b>—</b></div>'; return; }
+    const toMM=x=>x*25.4, toMM2=x=>x*645.16, toKGM=x=>x*1.48816, toKGM3=x=>x*16.0185, toMPas=x=>x*0.4134, toMS=x=>x*0.3048;
+    pipeEl.innerHTML=[
+      ['Outside Diameter', ip?fmt(r.od,5)+' in':fmt(toMM(r.od),5)+' mm'],
+      ['Wall Thickness', ip?fmt(r.wall,4)+' in':fmt(toMM(r.wall),4)+' mm'],
+      ['Inside Diameter', ip?fmt(r.id,5)+' in':fmt(toMM(r.id),5)+' mm'],
+      ['Inside Area', ip?fmt(r.area,4)+' in²':fmt(toMM2(r.area),4)+' mm²'],
+      ['Cross Section Area', ip?fmt(r.cross,4)+' in²':fmt(toMM2(r.cross),4)+' mm²'],
+      ['Section Modulus', ip?fmt(r.Z,4)+' in³':fmt(r.Z*16387,4)+' mm³'],
+      ['Moment of Inertia', ip?fmt(r.I,4)+' in⁴':fmt(r.I*416231,4)+' mm⁴'],
+      ['Radius of Gyration', ip?fmt(r.rGyr,4)+' in':fmt(toMM(r.rGyr),4)+' mm'],
+      ['Weight of Pipe', ip?fmt(r.wtPipe,4)+' lb/ft':fmt(toKGM(r.wtPipe),4)+' kg/m'],
+      ['Weight Pipe + Fluid', ip?fmt(r.wtTotal,4)+' lb/ft':fmt(toKGM(r.wtTotal),4)+' kg/m']
+    ].map(([k,v])=>`<div class="rl"><span>${k}</span><b>${v}</b></div>`).join('');
+    hydEl.innerHTML=[
+      ['Fluid density', ip?fmt(r.rho,4)+' lb/ft³':fmt(toKGM3(r.rho),4)+' kg/m³'],
+      ['Fluid viscosity', ip?fmt(r.mu,4)+' lb/ft·h':fmt(toMPas(r.mu),4)+' mPa·s'],
+      ['Specific Heat', ip?fmt(r.cp,4)+' Btu/lb·°F':fmt(r.cp*4.1868,4)+' kJ/kg·K'],
+      ['Energy factor', ip?fmt(r.energyFactor,4)+' Btu/h·gpm·°F':fmt(r.energyFactor*0.0703,4)+' W/(L/s)·K'],
+      ['Fluid velocity', ip?fmt(r.V,4)+' ft/s':fmt(toMS(r.V),4)+' m/s', true],
+      ['Reynolds Number', fmt(r.Re,5)],
+      ['Friction Factor', fmt(r.f,5)],
+      ['Head Loss', ip?fmt(r.hf100,4)+' ft/100 ft':fmt(r.hf100,4)+' m/100 m', true],
+      ['Elbow loss', ip?fmt(r.elbow,4)+' ft':fmt(r.elbow*0.3048,4)+' m']
+    ].map(([k,v,big])=>`<div class="rl${big?' big':''}"><span>${k}</span><b class="${big?'blue':''}">${v}</b></div>`).join('');
+  }
+  
+  function updateSizeOptions(){
+    const mat=PMATERIALS.find(m=>m.id===P.material); const sel=$('#pz-size'); const prev=P.size;
+    sel.innerHTML='';
+    let sizes=mat.copper ? Object.keys(COPPER_WALL[mat.copper]).filter(s=>COPPER_OD[s]!=null) : Object.keys(mat.data);
+    const order=['1/8','1/4','3/8','1/2','5/8','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','24','30','36','40'];
+    sizes.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+    sizes.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s+'"'; sel.appendChild(o); });
+    if(sizes.includes(prev)) P.size=prev; else P.size=sizes[0]||'';
+    sel.value=P.size;
+  }
+  
+  
+  function updateFlowLabel() { $('#pz-flowLabel').textContent = S.units === 'ip' ? 'Flow Rate (USgpm)' : 'Flow Rate (L/s)'; }
+  function draw() {
+    updateFlowLabel();
+    $('#pz-type').value = P.material;
+    $('#pz-fluid').value = P.fluid;
+    $('#pz-flow').value = P.flow;
+    updateSizeOptions();
+    renderProps(calc());
+    save();
+  }
+  function mount(view) {
+    view.innerHTML =
+      '<div class="tool-pz">' +
+      '<div class="card"><h2>Inputs</h2><div class="grid2">' +
+        '<label class="fld"><span>Pipe Material</span><select id="pz-type"></select></label>' +
+        '<label class="fld"><span>Nominal Size</span><select id="pz-size"></select></label>' +
+        '<label class="fld"><span>Fluid</span><select id="pz-fluid"></select></label>' +
+        '<label class="fld"><span id="pz-flowLabel">Flow Rate (USgpm)</span><input type="number" id="pz-flow" step="any" min="0" inputmode="decimal"></label>' +
+      '</div></div>' +
+      '<div class="card"><div class="results">' +
+        '<div class="rescol"><h3>Pipe Properties</h3><div class="res" id="pz-pipeProps"></div></div>' +
+        '<div class="rescol"><h3>Hydraulics</h3><div class="res" id="pz-hydProps"></div></div>' +
+      '</div><p class="hint">Head loss is friction loss per 100 ft (or 100 m). Elbow loss is for one standard 90° elbow (K ≈ 0.9). Always verify against project standards.</p></div>' +
+      '</div>';
+    PMATERIALS.forEach(m => { const o = document.createElement('option'); o.value = m.id; o.textContent = m.label; $('#pz-type').appendChild(o); });
+    PFLUIDS.forEach(f => { const o = document.createElement('option'); o.value = f.id; o.textContent = f.label; $('#pz-fluid').appendChild(o); });
+    $('#pz-type').addEventListener('change', e => { P.material = e.target.value; draw(); });
+    $('#pz-size').addEventListener('change', e => { P.size = e.target.value; draw(); });
+    $('#pz-fluid').addEventListener('change', e => { P.fluid = e.target.value; draw(); });
+    $('#pz-flow').addEventListener('input', e => { const v = parseFloat(e.target.value); P.flow = isFinite(v) && v >= 0 ? v : 0; renderProps(calc()); save(); });
+    draw();
+  }
+  function convert(from, to) {
+    if (from === 'ip' && to === 'si') P.flow = P.flow * 0.0630902; else if (from === 'si' && to === 'ip') P.flow = P.flow / 0.0630902;
+    P.flow = Math.round(P.flow * 1e6) / 1e6;
+  }
+  function clear() { Object.assign(P, defaults()); render(); save(); }
+  return { mount: mount, convert: convert, clear: clear, calc: calc };
+})();
+
+/* ---------- Chilled Water Calci (from the Chilled Water Calci app; state is kept in S.chw, units follow the whole app) ---------- */
+const CHW = (function () {
+  const defaultFlow = () => S.units === 'ip' ? 276.1 : 17.42;
+  const defaults = () => ({ hl: 4, flow: defaultFlow(), manualVel: null, manualHL: null });
+  const C = S.chw = defaults();
+  (function loadSaved() {
+    try {
+      const r = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); const x = r && r.chw; if (!x) return;
+      if (x.hl === 3 || x.hl === 4 || x.hl === 5) C.hl = x.hl;
+      if (typeof x.flow === 'number' && isFinite(x.flow) && x.flow >= 0) C.flow = x.flow;
+    } catch (e) {}
+  })();
+  const LU = [
+    { in: 0.5,  mm: 12,  gpm: [1.54, 1.78, 2.00], fps: [1.63, 1.88, 2.11] },
+    { in: 0.75, mm: 20,  gpm: [3.32, 3.83, 4.31], fps: [2.00, 2.30, 2.59] },
+    { in: 1,    mm: 25,  gpm: [6.37, 7.36, 8.28], fps: [2.36, 2.73, 3.07] },
+    { in: 1.25, mm: 32,  gpm: [13.3, 15.4, 17.3], fps: [2.85, 3.30, 3.71] },
+    { in: 1.5,  mm: 40,  gpm: [20.2, 23.3, 26.2], fps: [3.18, 3.67, 4.13] },
+    { in: 2,    mm: 50,  gpm: [39.4, 45.5, 51.2], fps: [3.77, 4.35, 4.90] },
+    { in: 2.5,  mm: 65,  gpm: [63.3, 73.0, 82.2], fps: [4.24, 4.89, 5.51] },
+    { in: 3,    mm: 80,  gpm: [113,  130,  146 ], fps: [4.90, 5.64, 6.34] },
+    { in: 3.5,  mm: 90,  gpm: [165,  191,  215 ], fps: [5.35, 6.20, 6.98] },
+    { in: 4,    mm: 100, gpm: [232,  268,  301 ], fps: [5.85, 6.75, 7.59] },
+    { in: 5,    mm: 125, gpm: [422,  487,  548 ], fps: [6.77, 7.81, 8.79] },
+    { in: 6,    mm: 150, gpm: [685,  791,  889 ], fps: [7.61, 8.78, 9.87] },
+    { in: 8,    mm: 200, gpm: [1411, 1629, 1833], fps: [9.05,10.45,11.76] }
+  ];
+  
+  /* Sch.40 internal diameters (inches) for velocity calc */
+  const ID = {
+    0.5:0.622, 0.75:0.824, 1:1.049, 1.25:1.380, 1.5:1.610,
+    2:2.067, 2.5:2.469, 3:3.068, 3.5:3.548, 4:4.026,
+    5:5.047, 6:6.065, 8:7.981
+  };
+  
+  const GPM_PER_LS = 15.85037283;
+  
+  function flowInGpm() {
+    return S.units === 'si' ? C.flow * GPM_PER_LS : C.flow;
+  }
+  function fpsFromGpm(gpm, sizeIn) {
+    const id = ID[sizeIn];
+    if (!id) return 0;
+    return gpm * 0.4085 / (id * id);
+  }
+  function gpmFromFps(fps, sizeIn) {
+    const id = ID[sizeIn];
+    if (!id) return 0;
+    return fps * (id * id) / 0.4085;
+  }
+  
+  /* Find pipe by design HL (equal friction) */
+  function sizeByHL(gpm, hl) {
+    // Map continuous HL to nearest table column, then pick smallest pipe whose capacity >= gpm
+    // For simplicity and consistency with table: use 3/4/5 columns
+    let idx = 1; // default 4
+    if (hl <= 3.5) idx = 0;
+    else if (hl >= 4.5) idx = 2;
+  
+    for (const row of LU) {
+      if (row.gpm[idx] >= gpm - 0.01) {
+        return { sizeIn: row.in, mm: row.mm, fps: fpsFromGpm(gpm, row.in), capacity: row.gpm[idx], over: false };
+      }
+    }
+    const last = LU[LU.length - 1];
+    return { sizeIn: last.in, mm: last.mm, fps: fpsFromGpm(gpm, last.in), capacity: last.gpm[idx], over: true };
+  }
+  
+  /* Find pipe by target velocity */
+  function sizeByVelocity(gpm, targetFps) {
+    // Required ID from continuity: Q = V * A → ID = sqrt(Q*0.4085 / V)  (ID in inches, Q in GPM, V in fps)
+    if (targetFps <= 0) return null;
+    const reqId = Math.sqrt(gpm * 0.4085 / targetFps);
+  
+    // Pick smallest Sch.40 size whose ID >= required ID (so actual velocity <= target)
+    let chosen = null;
+    for (const row of LU) {
+      if (ID[row.in] >= reqId - 0.001) {
+        chosen = row;
+        break;
+      }
+    }
+    if (!chosen) {
+      const last = LU[LU.length - 1];
+      return { sizeIn: last.in, mm: last.mm, fps: fpsFromGpm(gpm, last.in), capacity: last.gpm[1], over: true };
+    }
+    return {
+      sizeIn: chosen.in,
+      mm: chosen.mm,
+      fps: fpsFromGpm(gpm, chosen.in),
+      capacity: chosen.gpm[1],
+      over: false
+    };
+  }
+  
+  
+  function draw(fromEdit) {
+    // Units
+    $('#chw-flowUnit').textContent = S.units === 'si' ? 'L/s' : 'USGPM';
+    $('#chw-velUnit').textContent = S.units === 'si' ? 'm/s' : 'ft/s';
+  
+    // HL quick buttons
+    $$('#view .hl-group button').forEach(b => {
+      b.classList.toggle('on', Number(b.dataset.hl) === C.hl);
+    });
+  
+    // Flow input
+    const flowEl = $('#chw-flow');
+    if (document.activeElement !== flowEl) {
+      flowEl.value = C.flow === 0 ? '' : (Number.isInteger(C.flow) ? C.flow : Number(C.flow.toPrecision(6)));
+    }
+  
+    const gpm = flowInGpm();
+    const status = $('#chw-status');
+    const velEl = $('#chw-velEdit');
+    const hlEl = $('#chw-hlEdit');
+  
+    if (!(gpm > 0)) {
+      $('#chw-pipeSize').textContent = '—';
+      $('#chw-pipeSizeSub').textContent = 'Enter flow rate to size pipe';
+      $('#chw-flowOut').textContent = '—';
+      $('#chw-cap').textContent = '—';
+      if (document.activeElement !== velEl) velEl.value = '';
+      if (document.activeElement !== hlEl) hlEl.value = '';
+      status.className = 'chw-status empty';
+      status.textContent = 'Enter a flow rate to see results';
+      return;
+    }
+  
+    // Decide which method to use
+    let res;
+    let mode = 'auto';
+  
+    if (C.manualVel != null && C.manualVel > 0) {
+      // User is driving by velocity
+      res = sizeByVelocity(gpm, C.manualVel);
+      mode = 'vel';
+    } else {
+      // Drive by head loss (manual or quick-select)
+      const hl = (C.manualHL != null && C.manualHL > 0) ? C.manualHL : C.hl;
+      res = sizeByHL(gpm, hl);
+      mode = (C.manualHL != null) ? 'hl' : 'auto';
+    }
+  
+    // Pipe size
+    $('#chw-pipeSize').textContent = res.sizeIn + '"';
+    $('#chw-pipeSizeSub').textContent = 'DN ' + res.mm + ' mm · Nominal pipe size';
+  
+    // Flow display
+    if (S.units === 'si') {
+      $('#chw-flowOut').innerHTML = Number((gpm / GPM_PER_LS).toPrecision(4)) + ' <small>L/s</small>';
+    } else {
+      $('#chw-flowOut').innerHTML = Number(gpm.toPrecision(4)) + ' <small>GPM</small>';
+    }
+  
+    // Capacity (at nearest table HL)
+    let capIdx = 1;
+    const useHL = (C.manualHL != null && C.manualHL > 0) ? C.manualHL : C.hl;
+    if (useHL <= 3.5) capIdx = 0;
+    else if (useHL >= 4.5) capIdx = 2;
+    const capGpm = LU.find(r => r.in === res.sizeIn)?.gpm[capIdx] ?? res.capacity;
+    if (S.units === 'si') {
+      $('#chw-cap').innerHTML = Number((capGpm / GPM_PER_LS).toPrecision(4)) + ' <small>L/s</small>';
+    } else {
+      $('#chw-cap').innerHTML = Number(capGpm.toPrecision(4)) + ' <small>GPM</small>';
+    }
+  
+    // Velocity field
+    if (document.activeElement !== velEl) {
+      if (S.units === 'si') {
+        velEl.value = (res.fps * 0.3048).toFixed(2);
+      } else {
+        velEl.value = res.fps.toFixed(2);
+      }
+    }
+  
+    // Head Loss field
+    if (document.activeElement !== hlEl) {
+      hlEl.value = (C.manualHL != null ? C.manualHL : C.hl);
+    }
+  
+    // Status
+    if (res.over) {
+      status.className = 'chw-status warn';
+      status.textContent = 'Flow exceeds 8" capacity. Verify design or increase head loss allowance.';
+    } else if (mode === 'vel') {
+      status.className = 'chw-status manual';
+      status.textContent = 'Sized by target velocity. Actual velocity ' + 
+        (S.units === 'si' ? (res.fps*0.3048).toFixed(2)+' m/s' : res.fps.toFixed(2)+' ft/s') + '.';
+    } else if (mode === 'hl') {
+      status.className = 'chw-status manual';
+      status.textContent = 'Sized by manual head loss (' + useHL + ' ft/100ft).';
+    } else {
+      status.className = 'chw-status ok';
+      if (S.units === 'si') {
+        status.textContent = 'Suitable by reference capacity. ' +
+          Number((gpm/GPM_PER_LS).toPrecision(4)) + ' L/s at ' + C.hl + ' ft/100 ft.';
+      } else {
+        status.textContent = 'Suitable by reference capacity. ' +
+          Number(gpm.toPrecision(4)) + ' GPM at ' + C.hl + ' ft/100 ft.';
+      }
+    }
+  }
+  
+  function buildRefTable() {
+    const body = $('#chw-refBody');
+    body.innerHTML = LU.map(r => {
+      return `<tr>
+        <td><b>${r.in}"</b></td>
+        <td>${r.mm}</td>
+        <td>${Number(r.gpm[0].toPrecision(4))}</td>
+        <td>${Number(r.gpm[1].toPrecision(4))}</td>
+        <td>${Number(r.gpm[2].toPrecision(4))}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  
+  function mount(view) {
+    view.innerHTML =
+      '<div class="tool-chw">' +
+      '<div class="card"><h2>Inputs</h2>' +
+        '<div class="row"><label>Flow rate</label><div><input type="number" id="chw-flow" inputmode="decimal" step="any" placeholder="0"><div class="unit" id="chw-flowUnit">L/s</div></div></div>' +
+        '<div style="margin:14px 0 6px;font-weight:600;font-size:15px">Design Head Loss</div>' +
+        '<div class="hl-group"><button type="button" data-hl="3">3</button><button type="button" data-hl="4">4</button><button type="button" data-hl="5">5</button></div>' +
+        '<div class="unit" style="text-align:left;margin-top:2px">ft / 100 ft · quick select</div>' +
+      '</div>' +
+      '<div class="result-card"><h2>Sizing Result</h2>' +
+        '<div class="pipe-main"><div class="lbl">Selected Pipe Size</div><div class="size" id="chw-pipeSize">—</div><div class="sub" id="chw-pipeSizeSub">Enter flow rate to size pipe</div></div>' +
+        '<div class="res-grid">' +
+          '<div class="res-item"><div class="lbl">Flow</div><div class="val" id="chw-flowOut">—</div></div>' +
+          '<div class="res-item"><div class="lbl">Velocity <span style="font-weight:500;text-transform:none;letter-spacing:0">(editable)</span></div><input type="number" class="edit" id="chw-velEdit" inputmode="decimal" step="any" placeholder="—"><div class="edit-unit" id="chw-velUnit">ft/s</div></div>' +
+          '<div class="res-item"><div class="lbl">Capacity at HL</div><div class="val" id="chw-cap">—</div></div>' +
+          '<div class="res-item"><div class="lbl">Head Loss <span style="font-weight:500;text-transform:none;letter-spacing:0">(editable)</span></div><input type="number" class="edit" id="chw-hlEdit" inputmode="decimal" step="any" placeholder="—"><div class="edit-unit">ft/100ft</div></div>' +
+        '</div>' +
+        '<div class="chw-status empty" id="chw-status">Enter a flow rate to see results</div>' +
+      '</div>' +
+      '<button type="button" class="ref-btn" id="chw-btnRef">Pipe Capacity Reference Table ▸</button>' +
+      '<p class="note">Based on Schedule 40 steel pipe. Equal-friction method (ASHRAE practice). Edit Velocity or Head Loss in the result card to explore alternatives. Always verify against project standards.</p>' +
+      '</div>';
+    $('#chw-flow').addEventListener('input', e => {
+      const v = parseFloat(e.target.value); C.flow = isFinite(v) ? v : 0;
+      C.manualVel = null; C.manualHL = null;       // changing the flow goes back to automatic sizing
+      save(); draw();
+    });
+    $$('#view .hl-group button').forEach(b => {
+      b.addEventListener('click', () => { C.hl = Number(b.dataset.hl); C.manualHL = null; C.manualVel = null; save(); draw(); });
+    });
+    $('#chw-velEdit').addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      if (!isFinite(v) || v <= 0) { C.manualVel = null; }
+      else { C.manualVel = S.units === 'si' ? v / 0.3048 : v; C.manualHL = null; }
+      draw(true);
+    });
+    $('#chw-hlEdit').addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      if (!isFinite(v) || v <= 0) { C.manualHL = null; }
+      else { C.manualHL = v; C.manualVel = null; if (v === 3 || v === 4 || v === 5) C.hl = v; }
+      draw(true);
+    });
+    $('#chw-btnRef').addEventListener('click', () => { buildRefTable(); $('#chw-ref').classList.add('open'); });
+    draw();
+  }
+  $('#chw-ref-close').addEventListener('click', () => $('#chw-ref').classList.remove('open'));
+  $('#chw-ref').addEventListener('click', e => { if (e.target.id === 'chw-ref') $('#chw-ref').classList.remove('open'); });
+  function convert(from, to) {
+    if (from === 'si' && to === 'ip') C.flow = C.flow * GPM_PER_LS; else if (from === 'ip' && to === 'si') C.flow = C.flow / GPM_PER_LS;
+    C.flow = Number(C.flow.toPrecision(6));        // manualVel is kept in ft/s, so it needs no conversion
+  }
+  function clear() { C.flow = 0; C.manualVel = null; C.manualHL = null; save(); render(); const f = $('#chw-flow'); if (f) f.focus(); }
+  return { mount: mount, convert: convert, clear: clear, sizeByHL: sizeByHL, sizeByVelocity: sizeByVelocity };
+})();
+
 /* ---------- categories and tools (add new tools here) ----------
    A category holds a list of tools. To add a tool, add one object to that category's "tools" list:
    { id, label, icon, actions: ['units','clear','print'], modes?: [...], mount?: fn, soon?: 'text' }
@@ -925,6 +1498,7 @@ const ICON = {
   duct: svg('<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="4"/>'),
   pipe: svg('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>'),
   slope: svg('<path d="M3 19h18M3 19L19 8"/><path d="M9 19a6 6 0 0 0-1.4-3.6"/>'),
+  chw: svg('<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><path d="M12 10.5v6M9.4 12l5.2 3M14.6 12l-5.2 3"/>'),
   rw: svg('<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>')
 };
 const ACTIONS = ['units', 'clear', 'print'];
@@ -942,12 +1516,15 @@ const CATEGORIES = [
           { id: 'basic', label: 'Basic', mount: mountDuctBasic },
           { id: 'adv', label: 'Advanced', soon: 'Advanced duct calculations will be added here.' } ] } ] },
   { id: 'plumbing', label: 'Plumbing', color: '#12a4b8', icon: ICON.plumbing, min: 4, tools: [
-      { id: 'pipe-sizer', label: 'Pipe Sizer', icon: ICON.pipe, actions: ACTIONS, soon: 'Pipe sizer is planned as the next calculator.' },
+      { id: 'pipe-sizer', label: 'Pipe Sizer', icon: ICON.pipe, actions: ACTIONS, printTitle: 'Pipe sizing',
+        mount: PIPE.mount, onUnits: (from, to) => PIPE.convert(from, to), onClear: () => PIPE.clear(), refresh: () => render() },
       // DRSW.convert changes the units of both Pipe Slope and Rain Water Calci, so only one of them carries onUnits.
       { id: 'pipe-slope', label: 'Pipe Slope', icon: ICON.slope, actions: ACTIONS, printTitle: 'Pipe slope',
         mount: DRSW.mountSlope, onUnits: (from, to) => DRSW.convert(from, to), onClear: () => DRSW.clearSlope(), refresh: () => render() },
       { id: 'rw-calci', label: 'Rain Water Calci', icon: ICON.rw, actions: ACTIONS, printTitle: 'Rain water',
-        mount: DRSW.mountRain, onClear: () => DRSW.clearRain(), refresh: () => render() } ] },
+        mount: DRSW.mountRain, onClear: () => DRSW.clearRain(), refresh: () => render() },
+      { id: 'chw-calci', label: 'Chilled Water Calci', icon: ICON.chw, actions: ACTIONS, printTitle: 'Chilled water',
+        mount: CHW.mount, onUnits: (from, to) => CHW.convert(from, to), onClear: () => CHW.clear(), refresh: () => render() } ] },
   { id: 'electrical', label: 'Electrical', color: '#f5a623', icon: ICON.electrical, min: 4, tools: [] },
   { id: 'convertors', label: 'Converters', color: '#8e6bff', icon: ICON.convertors, min: 4, tools: [] },
   { id: 'misc', label: 'Misc', color: '#2dbf8a', icon: ICON.misc, min: 4, tools: [] },
@@ -966,7 +1543,7 @@ function homeHTML() {
 }
 function categoryHTML(c) {
   const n = c.tools.length, total = Math.max(c.min || 4, n + (n % 2));
-  let h = '<div class="pagehead"><h2>' + c.label + '</h2></div><div class="grid">';
+  let h = '<div class="grid">';
   c.tools.forEach(t => {
     const todo = !toolModes(t).some(m => m.mount);
     h += '<button type="button" class="box' + (todo ? ' todo' : '') + '" data-tool="' + t.id + '" style="--tc:' + c.color + '">' +
@@ -991,12 +1568,14 @@ function renderModes() {
 }
 function render() {
   const view = $('#view'), crumb = $('#crumb'), cat = findCat(NAV.cat), tool = currentTool();
+  const link = (go, text) => '<button type="button" class="cl" data-go="' + go + '">' + text + '</button>';
+  const sep = '<span class="sep" aria-hidden="true">›</span>';
   $('#m-back').hidden = !cat;
   $('#brand').classList.toggle('compact', !!cat);   // logo + signature on every page; smaller on inner pages
-  if (!cat) { crumb.textContent = ''; view.innerHTML = homeHTML(); }
-  else if (!tool) { crumb.textContent = ''; view.innerHTML = categoryHTML(cat); }
+  if (!cat) { crumb.innerHTML = ''; view.innerHTML = homeHTML(); }
+  else if (!tool) { crumb.innerHTML = link('home', 'Home') + sep + '<span class="cur">' + cat.label + '</span>'; view.innerHTML = categoryHTML(cat); }
   else {
-    crumb.textContent = cat.label + ' › ' + tool.label;
+    crumb.innerHTML = link('home', 'Home') + sep + link('cat', cat.label) + sep + '<span class="cur">' + tool.label + '</span>';
     const mode = activeMode(tool);
     if (mode.mount) mode.mount(view);
     else view.innerHTML = '<div class="card soon-card"><h2>' + tool.label + (tool.modes ? ' · ' + mode.label : '') + '</h2><p>Coming soon.</p><p>' + (mode.soon || '') + '</p></div>';
@@ -1026,6 +1605,10 @@ $('#m-back').addEventListener('click', () => {
   go(null, null, false); try { history.back(); } catch (e) {}
 });
 function goHome() { if (NAV.cat) go(null, null); }
+$('#crumb').addEventListener('click', e => {
+  const b = e.target.closest('[data-go]'); if (!b) return;
+  if (b.dataset.go === 'home') goHome(); else go(NAV.cat, null);
+});
 $('#brand').addEventListener('click', goHome);
 $('#brand').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goHome(); } });
 $('#modes').addEventListener('click', e => {
